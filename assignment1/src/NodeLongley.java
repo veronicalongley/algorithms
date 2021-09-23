@@ -8,7 +8,7 @@ public class NodeLongley
 
 	public NodeLongley()
 	{
-		myData = 'a';
+		myData = ' ';
 		myNext = null;
 	}//NodeLongley
 	

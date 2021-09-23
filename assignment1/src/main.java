@@ -23,6 +23,7 @@ static Scanner keyboard = new Scanner(System.in);
 		try
 			{
 			Scanner readFile = new Scanner (new File (fileName));
+			//while(readFile.hasNextLine())
 			for(int i = 0; i < numofItems; i++)
 				{
 				item = readFile.nextLine();
@@ -59,40 +60,41 @@ static Scanner keyboard = new Scanner(System.in);
 		{
 			Stack stackversion = new Stack();
 			Queue queueversion = new Queue();
-			magicItems[i].toUpperCase();
-			magicItems[i].replaceAll(" ", "");
-			for(int j = 1; j <= magicItems[j].length(); j++)
+			magicItems[i] = magicItems[i].toUpperCase();
+			magicItems[i] = magicItems[i].replaceAll(" ", "");
+			for(int j = 0; j <= magicItems[i].length()-1; j++)
 			{
-				//while (j<= magicItems[i].length() )
-				//{
 					char c = magicItems[i].charAt(j);
 					stackversion.push(c);
 					queueversion.enqueue(c);
-				//}//while
+					
 			}//for
 			
-			boolean palindrome = true;
-			int k = 1;
 			
-			while ( palindrome == true || k<= magicItems[i].length() )
+			boolean palindrome = true;
+			int k = 0;
+			
+			while ( palindrome == true && k<= magicItems[i].length()-1 )
 			{
 				char s = 'a';
 				char q = 'b';
 				s = stackversion.pop();
 				q = queueversion.dequeue();
-				k++;
-				if(Character.compare(s, q) == 0 ) {
+				if(Character.compare(s, q) == 0 ) 
+				{
 					k++;
-				}
-					
+				}//if		
 				else
+				{
 					palindrome = false;
+				}//else
+					
 			}//while
 			
 			if(palindrome == true)
 				System.out.println(magicItems[i]);
 			
 		}//for
-	}
+	}//main
 
-}
+}//main
