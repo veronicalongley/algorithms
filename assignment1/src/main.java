@@ -13,22 +13,25 @@ static Scanner keyboard = new Scanner(System.in);
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 
+		//intialize variables
 		String fileName = ""; 
-		String item = "";
 		int numofItems = 666;
 		String [] magicItems = new String [666];
-		
+		String theitem = null;
 		System.out.println("Enter a filename: ");
 		fileName = keyboard.next();
+		
+		//input item names from file 
 		try
 			{
 			Scanner readFile = new Scanner (new File (fileName));
-			//while(readFile.hasNextLine())
-			for(int i = 0; i < numofItems; i++)
-				{
-				item = readFile.nextLine();
-				magicItems[i] = item;
-				}//for
+			int i = 0; 
+			while(readFile.hasNextLine())
+			{
+				theitem = readFile.nextLine();
+				magicItems[i] = theitem;
+				i++;
+			}//while
 			readFile.close();
 			}//try
 		catch(FileNotFoundException ex)
@@ -56,25 +59,33 @@ static Scanner keyboard = new Scanner(System.in);
 			ex.printStackTrace();
 			}//catch
 		
+		//for loop to go through the list of magic items
 		for (int i = 0; i < numofItems; i++)
 		{
 			Stack stackversion = new Stack();
 			Queue queueversion = new Queue();
-			magicItems[i] = magicItems[i].toUpperCase();
-			magicItems[i] = magicItems[i].replaceAll(" ", "");
-			for(int j = 0; j <= magicItems[i].length()-1; j++)
+			String word = "";
+			
+			//eliminate spaces and lower case letters
+			// store in 'word' so we can print the possible palindrome correctly
+			word = magicItems[i].toUpperCase();
+			word = word.replaceAll(" ", "");
+			
+			//for loop to go through the chars of the magic item
+			for(int j = 0; j <= word.length()-1; j++)
 			{
-					char c = magicItems[i].charAt(j);
+					char c = word.charAt(j);
 					stackversion.push(c);
-					queueversion.enqueue(c);
-					
+					queueversion.enqueue(c);	
 			}//for
 			
 			
 			boolean palindrome = true;
 			int k = 0;
 			
-			while ( palindrome == true && k<= magicItems[i].length()-1 )
+			//while loop to check for palindromes by popping and dequeuing 
+			//the same string and comparing those chars
+			while ( palindrome == true && k<= word.length()-1 )
 			{
 				char s = 'a';
 				char q = 'b';
@@ -91,10 +102,11 @@ static Scanner keyboard = new Scanner(System.in);
 					
 			}//while
 			
+			//Print palindrome if it is true
 			if(palindrome == true)
 				System.out.println(magicItems[i]);
-			
 		}//for
+		
 	}//main
 
 }//main
