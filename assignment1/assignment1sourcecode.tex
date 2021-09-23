@@ -1,0 +1,301 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{xcolor}
+ \geometry{
+ left=20mm,
+ top=20mm,
+ }
+\title{\textbf{Algorithms Assignment 1}}
+\author{Veronica Longley }
+\date{September 24, 2021}
+
+\begin{document}
+\lstset{numbers= left}
+\lstset{language=Java}
+\huge
+\maketitle{}
+
+\small
+\pagebreak
+\section{Node Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class NodeLongley
+{
+	//myData holds the char for each Node
+	//myNext references the next Node in the stack or queue
+	private char myData;
+	private NodeLongley myNext;
+
+	public NodeLongley()
+	{
+		myData = ' ';
+		myNext = null;
+	}//NodeLongley
+	
+	public NodeLongley(char newData)
+	{
+		myData = newData;
+		myNext = null;
+	}//NodeLongley
+
+	//getter for myData 
+	public char getData()
+	{
+		return myData;
+	}//getData
+	
+	//getter for myNext
+	public NodeLongley getNext()
+	{
+		return myNext;
+	}//getNext
+	
+	//setter for myData 
+	public void setData(char newData)
+	{
+		myData = newData;
+	}//setData
+	
+	//setter for myNext
+	public void setNext(NodeLongley newNext)
+	{
+		myNext = newNext;
+	}//setNext
+}//NodeLongley
+\end{lstlisting}
+\textbf{Comments:}
+The Node Class, which is used by Stack and Queue, has two private variables: myData (Line 5) and myNext (Line 6). MyData includes the character while myNext is a reference to the next character in the stack or queue. There is also getters and setters for both of these variables (Lines 20-42) in this class so we are able to access and assign these values. 
+
+
+\pagebreak
+\section{Queue Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class Queue {
+	//initialize Node for head and tail of queue
+	private NodeLongley head;
+	private NodeLongley tail;
+	
+	//checks if queue is empty and returns boolean
+	public boolean isEmpty()
+	{
+		return(head == null);
+	}//isEmpty
+	// enqueue method adds char c to the end of the line 
+	public void enqueue (char c) 
+	{
+		NodeLongley oldtail = tail;
+		tail = new NodeLongley();
+		tail.setData(c);
+		tail.setNext(null);
+		if (isEmpty())
+    	        	{head = tail;
+	        	}//if	
+	       
+		else
+			oldtail.setNext(tail);
+	}//enqueue
+	
+	// dequeue method removes the char at the front of the line 
+	// to be used for comparison 
+	public char dequeue()
+	{
+		char returnval = 'a';
+		if(!isEmpty()) 
+		{
+			returnval = head.getData();
+			head = head.getNext();
+			if (isEmpty())
+				tail = null;
+		}//if
+		else 
+			System.out.println("Handle Underflow");
+		
+		return returnval;
+	}//dequeue
+}//queue
+\end{lstlisting}
+\textbf{Comments:}
+The Queue Class first initializes a Node to be the head/'front of the line' (Line 3) and a Node to be the tail/'end of the line' (Line 4). We have the method isEmpty to check if the queue is empty and return the appropriate boolean. If the head of the list is assigned to null, the queue is empty and the method returns true, otherwise it is false (Line 9). The enqueue method is how we add characters to the end of the line. We first store what is currently at the end of the queue (Line 14), then create a new node tail (Line 15), set tail to be the character we are adding (Line 16), set its next element to be null as it is the end of the queue (Line 17), then if it is the only element in the queue we make the head equal the tail so isEmpty knows the queue is no longer empty (Line 19) otherwise, we set the next element of the Node that was the tail before this addition to be the new tail we just added (Line 23). Dequeue is how we remove characters from the queue. We will always be removing the character that was enqueued first. We first check if the queue is empty (Line 31), then store the character we want to return (the head) in returnval (Line 33), and we set head to be the next character in the queue (Line 34). If this was the last element in the queue, we set tail to be null (Line 36). Lastly we must return the value we stored in returnval. 
+
+\pagebreak
+\section{Stack Class}
+\begin{lstlisting}[frame=single, 
+backgroundcolor = \color{grey!12}]
+public class Stack {
+	//initialize Node for top of stack
+	private NodeLongley top; 
+	
+	public Stack()
+	{
+		top = null;
+	}//Stack
+	//push method which will add char c to the top of the stack
+	public void push (char c)
+	{
+		NodeLongley oldTop = top;
+		top = new NodeLongley();
+		top.setData(c);
+		top.setNext(oldTop);
+
+	}//push
+	
+	//checks to see if the stack is empty and returns true if it is
+	// returns false if it is not
+	public boolean isEmpty() 
+	{
+		if (top == null)
+			return true;
+		else
+			return false;
+	}// isEmpty
+	
+	//pop method to remove the pop char from the stack to be used 
+	//for comparison
+	public char pop()
+	{
+		char returnval = 'a';
+		if (!isEmpty())
+		{
+			returnval = top.getData();
+			top = top.getNext();
+		}//if
+		else
+			System.out.println("Handle Underflow");
+		return returnval; 
+	}//pop
+}//Stack
+\end{lstlisting}
+\textbf{Comments:}
+The Stack class begins by initializing a Node called top (Line 3). This will always be the last character pushed onto the stack. The push method is how we can add characters to the top of the stack. We do so by storing the element on the top of the stack (Line 12), creating a new node (Line 13), storing the character we want to push in this new node (Line 14), then setting the 'next' element to be what was on the top of the stack before this addition (Line 15). The isEmpty method (Lines 21-27) will check if the stack is empty by checking if the top of the stack is null. If that is true it will return true, and if that is false it will return false. Lastly, the pop method allows us to use the values, or in this case characters, by taking them off the stack. We first check if the stack is empty and if it is not, we store the top of the list in returnval (Line 36) and assign top to be the next element in the stack (Line 37). Then we return the value we stored in returnval. 
+
+\pagebreak
+\section{Main Class}
+\begin{lstlisting}[frame = single,
+backgroundcolor = \color{grey!12}]
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class main 
+{
+
+static Scanner keyboard = new Scanner(System.in);
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+
+		//initialize variables used to read in items from list
+		String fileName = ""; 
+		int numofItems = 666;
+		String [] magicItems = new String [666];
+		String theitem = null;
+		
+		//get input for file name
+		System.out.println("Enter a filename: ");
+		fileName = keyboard.next();
+		
+		//input item names from file and store in array
+		try
+			{
+			Scanner readFile = new Scanner (new File (fileName));
+			int i = 0; 
+			while(readFile.hasNextLine())
+			{
+				theitem = readFile.nextLine();
+				magicItems[i] = theitem;
+				i++;
+			}//while
+			readFile.close();
+			}//try
+		catch(FileNotFoundException ex)
+			{
+			System.out.println("Failed to find file: "+ fileName);
+			}//catch
+		catch(InputMismatchException ex)
+			{
+			System.out.println("Type mismatch. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(NumberFormatException ex)
+			{
+			System.out.println("Failed to convert String into an int. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(NullPointerException ex)
+			{
+			System.out.println("Null pointer exception. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(Exception ex)
+			{
+			System.out.println("Oops, something went wrong. ");
+			ex.printStackTrace();
+			}//catch
+		
+		//for loop to go through the list of magic items
+		for (int i = 0; i < numofItems; i++)
+		{
+			//create stack and queue used to compare the string
+			//forwards and backwards
+			Stack stackversion = new Stack();
+			Queue queueversion = new Queue();
+			String word = "";
+			
+			//eliminate spaces and lower case letters
+			// store in 'word' so we can print the possible 
+			//palindrome correctly
+			word = magicItems[i].toUpperCase();
+			word = word.replaceAll(" ", "");
+			
+			//for loop to go through the chars of the magic item
+			//pushes and enqueues the chars one by one
+			for(int j = 0; j <= word.length()-1; j++)
+			{
+					char c = word.charAt(j);
+					stackversion.push(c);
+					queueversion.enqueue(c);	
+			}//for
+			
+			//initialize variables used for comparison 
+			boolean palindrome = true;
+			int k = 0;
+			
+			//while loop to check for palindromes by popping 
+			//and dequeuing 
+			//the same string and comparing those chars
+			while ( palindrome == true && k<= word.length()-1 )
+			{
+				char s = 'a';
+				char q = 'b';
+				s = stackversion.pop();
+				q = queueversion.dequeue();
+				if(Character.compare(s, q) == 0 ) 
+				{
+					k++;
+				}//if		
+				else
+				{
+					palindrome = false;
+				}//else
+					
+			}//while
+			
+			//Print magic item if palindrome is true
+			if(palindrome == true)
+				System.out.println(magicItems[i]);
+		}//for
+		
+	}//main
+
+}//main
+\end{lstlisting}
+\textbf{Comments:}
+In main we will be using the Stack Class and the Queue Class to find palindromes, words spelled the same forwards and backwards, in a list of items and print them out. Pushing the string character by character onto a stack will reverse the word's order, so when it is compared to the queue we will be able to tell of the string is a palindrome as a queue will preserve the words order. First we take input from the user for the name of the file (Line 24). We then use a while loop (Line 31) to go through the list and store each item in our array magicItems (Line 34). We are using try and catch to read the file and store the items so that if an exception is thrown, we can try and avoid crashing the program. To find the palindromes we must go through each item in the list, push it into a stack, enqueue it into a queue, pop and dequeue, and compare characters. To go through the list item by item, we have a for loop (Line 65). To begin the loop we create a new stack (Line 69) and a new queue (Line 70). We then make the entire string uppercase (Line 76) and eliminate spaces (Line 77) to make comparisons easier. Here we are also storing the string without spaces and in all caps in our variable 'word'. This is so that if the string is a palindrome we can properly print it without missing spaces or having it  be all capital letters. We then have another for loop that goes character by character through the string and pushes (Line 84) and enqueues (Line 85) it. Next we use a while loop to pop from the stack (Line 99), dequeue from the queue (Line 100), and compare the characters (Line 101). If the charaters are the same, we incriment k (Line 103), the counter that moves through the string. If they are different we set the boolean palindrome to be false (Line 107). This, along with k getting to the end of the string, will exit the while loop. If k gets to the end of the string and palindrome is never set to false, the string is in fact a palindrome and it is printed out (Line 114). We then go back to the first for loop and repreat this process for each item in the array from the file. 
+
+\end{document}
