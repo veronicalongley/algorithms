@@ -1,5 +1,3 @@
-
-
 public class NodeLongley
 {
 	//myData holds the char for each Node
