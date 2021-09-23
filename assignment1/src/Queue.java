@@ -1,14 +1,17 @@
 
 public class Queue {
 
+	//initialize Node for head and tail of queue
 	private NodeLongley head;
 	private NodeLongley tail;
 	
+	//checks if queue is empty and returns boolean
 	public boolean isEmpty()
 	{
 		return(head == null);
-	}
+	}//isEmpty
 	
+	// enqueue method adds char c to the end of the line 
 	public void enqueue (char c) 
 	{
 		NodeLongley oldtail = tail;
@@ -23,6 +26,8 @@ public class Queue {
 			oldtail.setNext(tail);
 	}//enqueue
 	
+	// dequeue method removes the char at the front of the line 
+	// to be used for comparison 
 	public char dequeue()
 	{
 		char returnval = 'a';
@@ -38,4 +43,4 @@ public class Queue {
 		
 		return returnval;
 	}//dequeue
-}
+}//queue 

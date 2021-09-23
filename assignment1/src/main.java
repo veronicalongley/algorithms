@@ -13,15 +13,17 @@ static Scanner keyboard = new Scanner(System.in);
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 
-		//intialize variables
+		//initialize variables used to read in items from list
 		String fileName = ""; 
 		int numofItems = 666;
 		String [] magicItems = new String [666];
 		String theitem = null;
+		
+		//get input for file name
 		System.out.println("Enter a filename: ");
 		fileName = keyboard.next();
 		
-		//input item names from file 
+		//input item names from file and store in array
 		try
 			{
 			Scanner readFile = new Scanner (new File (fileName));
@@ -62,6 +64,7 @@ static Scanner keyboard = new Scanner(System.in);
 		//for loop to go through the list of magic items
 		for (int i = 0; i < numofItems; i++)
 		{
+			//create stack and queue used to compare the string forwards and backwards
 			Stack stackversion = new Stack();
 			Queue queueversion = new Queue();
 			String word = "";
@@ -72,6 +75,7 @@ static Scanner keyboard = new Scanner(System.in);
 			word = word.replaceAll(" ", "");
 			
 			//for loop to go through the chars of the magic item
+			//pushes and enqueues the chars one by one
 			for(int j = 0; j <= word.length()-1; j++)
 			{
 					char c = word.charAt(j);
@@ -79,7 +83,7 @@ static Scanner keyboard = new Scanner(System.in);
 					queueversion.enqueue(c);	
 			}//for
 			
-			
+			//initialize variables used for comparison 
 			boolean palindrome = true;
 			int k = 0;
 			
@@ -102,7 +106,7 @@ static Scanner keyboard = new Scanner(System.in);
 					
 			}//while
 			
-			//Print palindrome if it is true
+			//Print magic item if palindrome is true
 			if(palindrome == true)
 				System.out.println(magicItems[i]);
 		}//for
