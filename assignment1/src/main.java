@@ -18,10 +18,7 @@ static Scanner keyboard = new Scanner(System.in);
 		int numofItems = 666;
 		String [] magicItems = new String [666];
 		String theitem = null;
-		
-		//get input for file name
-		System.out.println("Enter a filename: ");
-		fileName = keyboard.next();
+		fileName = "magicitems";
 		
 		//input item names from file and store in array
 		try
