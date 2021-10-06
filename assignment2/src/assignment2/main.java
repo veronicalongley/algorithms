@@ -1,9 +1,9 @@
 package assignment2;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Random;
 
 public class main 
 {
@@ -60,8 +60,76 @@ static Scanner keyboard = new Scanner(System.in);
 			ex.printStackTrace();
 			}//catch
 		
-		System.out.println(magicItems[665]);
+		//int ssnum = 0;
+		selectionSort(magicItems, NUMOFITEMS);
+		shuffle(magicItems, NUMOFITEMS);
+		insertion(magicItems, NUMOFITEMS);
+	    for(int i = 0; i < NUMOFITEMS; i++)
+	    {
+	        System.out.println(i + magicItems[i]);
+	    }
+
+		
 		
 	}//main
 
-}//main
+
+static void selectionSort( String items[], final int TOTNUM)
+{
+	for(int i = 0; i < TOTNUM - 1; i++)
+	{
+		int minIndex = i; 
+		String minItem = items[i];
+		String temp = "";
+		for (int j = i + 1; j < TOTNUM; j++)
+		{
+			if (items[j].compareToIgnoreCase(minItem) < 0)
+			{
+				minItem = items[j];
+				minIndex= j;
+			}//if
+		}//for j
+		
+		
+		
+		if (minIndex != i)
+		{	temp = items[minIndex];
+	        items[minIndex] = items[i];
+	        items[i] = temp;
+		}//if
+	}//for i
+}//selection sort
+
+static void shuffle (String items [], final int TOTNUM)
+{
+	Random random = new Random();
+	String temp = "";
+	random.nextInt();
+	for (int i = 0; i < TOTNUM; i++)
+	{
+		int change = i + random.nextInt(TOTNUM - i);
+		temp = items[i];
+        items[i] = items[change];
+        items[change] = temp;
+	}//for
+}//shuffle
+
+static void insertion (String items[],final int TOTNUM ) 
+{
+	for(int i = 0; i < TOTNUM -1; i++)
+	{
+		for (int j = i + 1;j>0; j--)
+		{
+			if(items[j].compareToIgnoreCase(items[j-1]) < 0)
+			{
+				String temp = items[j];
+                items[j] = items[j - 1];
+                items[j - 1] = temp;
+			}//if
+		}//for j
+	}//for i
+ 
+}//insertion
+
+
+}//main 
