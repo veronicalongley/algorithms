@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Random;
+import java.lang.Math;
 
 public class main 
 {
@@ -64,10 +65,12 @@ static Scanner keyboard = new Scanner(System.in);
 		selectionSort(magicItems, NUMOFITEMS);
 		shuffle(magicItems, NUMOFITEMS);
 		insertion(magicItems, NUMOFITEMS);
+		shuffle(magicItems, NUMOFITEMS);
+		mergeSort(magicItems);
 	    for(int i = 0; i < NUMOFITEMS; i++)
 	    {
 	        System.out.println(i + magicItems[i]);
-	    }
+	    }//for
 
 		
 		
@@ -131,5 +134,44 @@ static void insertion (String items[],final int TOTNUM )
  
 }//insertion
 
+static void mergeSort (String items[])
+{
+	if(items.length > 1)
+	{
+		String[] left = new String [items.length/2];
+		String[] right = new String [items.length- (items.length /2)];
+		for(int i = 0; i< left.length; i++)
+		{
+			left[i]= items[i];
+		}//for i
+		for(int i = 0; i< right.length; i++)
+		{
+			right[i]= items[i+items.length/2];
+		}//for i 
+		
+		mergeSort(left);
+		mergeSort(right);
+		merge(items, left, right);
+	}
+}//mergeSort
+
+static void merge(String[]items, String[]left, String[]right)
+{
+	int x = 0;
+	int y = 0;
+	for(int j = 0; j < items.length; j++)
+	{
+		if(y >= right.length || (x < left.length && left[x].compareToIgnoreCase(right[y]) < 0))
+		{
+			items[j]= left[x];
+			x++;
+		}//if
+		else
+		{
+			items[j] = right[y];
+			y++;
+		}//else
+	}//for
+}//merge
 
 }//main 
