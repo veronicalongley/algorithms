@@ -68,8 +68,13 @@ static Scanner keyboard = new Scanner(System.in);
 	
 		
 		ssnum = selectionSort(magicItems, NUMOFITEMS);
+
 		shuffle(magicItems, NUMOFITEMS);
 		isnum = insertion(magicItems, NUMOFITEMS);
+		for(int i = 0; i < NUMOFITEMS; i++)
+	    {
+	        System.out.println(i + magicItems[i]);
+	    }//for		
 		shuffle(magicItems, NUMOFITEMS);
 		mergeSort(magicItems);
 		shuffle(magicItems, NUMOFITEMS);
@@ -80,10 +85,7 @@ static Scanner keyboard = new Scanner(System.in);
 	    System.out.println("Merge sort does a total of " + mergeComparisons+ " comparisons. ");
 	    System.out.println("Quick sort does a total of " +quickComparisons+ " comparisons. ");
 
-	  //  for(int i = 0; i < NUMOFITEMS; i++)
-	 //   {
-	  //      System.out.println(i + magicItems[i]);
-	  //  }//for
+	  //  
 		
 	}//main
 
@@ -96,12 +98,12 @@ static int selectionSort( String items[], final int TOTNUM)
 		int minIndex = i; 
 		String minItem = items[i];
 		String temp = "";
-		
 		for (int j = i + 1; j < TOTNUM; j++)
 		{
 			comparisons ++;
 			if (items[j].compareToIgnoreCase(minItem) < 0)
 			{
+				
 				minItem = items[j];
 				minIndex= j;
 			}//if
@@ -133,19 +135,17 @@ static void shuffle (String items [], final int TOTNUM)
 static int insertion (String items[],final int TOTNUM ) 
 {
 	int comparisons = 0;
-	for(int i = 0; i < TOTNUM -1; i++)
+	for(int i = 1; i < TOTNUM ; i++)
 	{
-		for (int j = i + 1;j>0; j--)
+		String key = items[i];
+		int j = i -1; 
+		while((j > -1) && ( items[j] .compareToIgnoreCase(key) >0 ))
 		{
 			comparisons ++; 
-			if(items[j].compareToIgnoreCase(items[j-1]) < 0)
-			{
-				
-				String temp = items[j];
-                items[j] = items[j - 1];
-                items[j - 1] = temp;
-			}//if
+					 items [j+1] = items [j];  
+             j--; 
 		}//for j
+		items[j+1] = key; 
 	}//for i
 	return comparisons;
  
