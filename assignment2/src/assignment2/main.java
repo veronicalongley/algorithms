@@ -8,7 +8,9 @@ import java.lang.Math;
 
 public class main 
 {
-
+	public static int mergeComparisons;
+	public static int quickComparisons; 
+	
 static Scanner keyboard = new Scanner(System.in);
 
 	public static void main(String[] args) 
@@ -63,24 +65,25 @@ static Scanner keyboard = new Scanner(System.in);
 		
 		int ssnum = 0; 
 		int isnum = 0;
-		int msnum = 0;
-		int qsnum = 0;
+	
 		
-		shuffle(magicItems, NUMOFITEMS);
 		ssnum = selectionSort(magicItems, NUMOFITEMS);
 		shuffle(magicItems, NUMOFITEMS);
 		isnum = insertion(magicItems, NUMOFITEMS);
 		shuffle(magicItems, NUMOFITEMS);
-		msnum = mergeSort(magicItems);
+		mergeSort(magicItems);
 		shuffle(magicItems, NUMOFITEMS);
-		qsnum = quicksort(magicItems, 0, NUMOFITEMS-1);
-	    for(int i = 0; i < NUMOFITEMS; i++)
-	    {
-	        System.out.println(i + magicItems[i]);
-	    }//for
-	    System.out.println(qsnum);
+		quicksort(magicItems, 0, NUMOFITEMS-1);
+	   
+	    System.out.println("Selection sort does a total of " + ssnum+ " comparisons. ");
+	    System.out.println("Insertion sort does a total of " + isnum+ " comparisons. ");
+	    System.out.println("Merge sort does a total of " + mergeComparisons+ " comparisons. ");
+	    System.out.println("Quick sort does a total of " +quickComparisons+ " comparisons. ");
 
-		
+	  //  for(int i = 0; i < NUMOFITEMS; i++)
+	 //   {
+	  //      System.out.println(i + magicItems[i]);
+	  //  }//for
 		
 	}//main
 
@@ -93,18 +96,17 @@ static int selectionSort( String items[], final int TOTNUM)
 		int minIndex = i; 
 		String minItem = items[i];
 		String temp = "";
+		comparisons ++;
 		for (int j = i + 1; j < TOTNUM; j++)
 		{
-			comparisons ++;
+			
 			if (items[j].compareToIgnoreCase(minItem) < 0)
 			{
 				minItem = items[j];
 				minIndex= j;
 			}//if
 		}//for j
-		
-		
-		
+
 		if (minIndex != i)
 		{	temp = items[minIndex];
 	        items[minIndex] = items[i];
@@ -138,6 +140,7 @@ static int insertion (String items[],final int TOTNUM )
 			comparisons ++; 
 			if(items[j].compareToIgnoreCase(items[j-1]) < 0)
 			{
+				
 				String temp = items[j];
                 items[j] = items[j - 1];
                 items[j - 1] = temp;
@@ -148,21 +151,19 @@ static int insertion (String items[],final int TOTNUM )
  
 }//insertion
 
-static int mergeSort (String items[])
+static void mergeSort (String items[])
 {
-	int comparisons = 0; 
+
 	if(items.length > 1)
 	{
 		String[] left = new String [items.length/2];
 		String[] right = new String [items.length- (items.length /2)];
 		for(int i = 0; i< left.length; i++)
 		{
-			comparisons ++; 
 			left[i]= items[i];
 		}//for i
 		for(int i = 0; i< right.length; i++)
 		{
-			comparisons ++; 
 			right[i]= items[i+items.length/2];
 		}//for i 
 		
@@ -170,27 +171,31 @@ static int mergeSort (String items[])
 		mergeSort(right);
 		merge(items, left, right);
 		
-	}
-	return comparisons;
+	}//if
+
 }//mergeSort
 
 static void merge(String[]items, String[]left, String[]right)
 {
 	int x = 0;
 	int y = 0;
+	
 	for(int j = 0; j < items.length; j++)
 	{
 		if(y >= right.length || (x < left.length && left[x].compareToIgnoreCase(right[y]) < 0))
 		{
 			items[j]= left[x];
 			x++;
+			main.mergeComparisons++;
 		}//if
 		else
 		{
 			items[j] = right[y];
 			y++;
+		//	main.mergeComparisons++;
 		}//else
 	}//for
+	
 }//merge
 
 static void random(String items [], int left, int right)
@@ -207,7 +212,6 @@ static int pivot(String items[], int left, int right)
 	random(items, left, right);
 	String pivot = items[right];
 	int x = (left - 1);
-//	int comparisons = 0;
 	for(int j = left; j < right; j++)
 	{
 		
@@ -217,8 +221,9 @@ static int pivot(String items[], int left, int right)
 			String temp = items[x];
             items[x] = items[j];
             items[j] = temp;
+            quickComparisons++;
 		}//if
-		//comparisons++;
+		
 	}//for
 	
 	String temp2 = items[x+1];
@@ -228,18 +233,16 @@ static int pivot(String items[], int left, int right)
     return x+1;
 }//pivot
 
-static int quicksort (String items[], int left, int right)
+static void quicksort (String items[], int left, int right)
 {
-	int comparisons = 0; 
+	 
 	if(left < right)
 	{
-		comparisons++;
 		int piv = pivot(items, left, right);
 		quicksort(items, left, piv-1);
 		quicksort(items, piv+1, right);
 		
 	}//if
-	return comparisons;
 }//quicksort
 
 }//main 
