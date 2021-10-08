@@ -71,10 +71,10 @@ static Scanner keyboard = new Scanner(System.in);
 
 		shuffle(magicItems, NUMOFITEMS);
 		isnum = insertion(magicItems, NUMOFITEMS);
-		for(int i = 0; i < NUMOFITEMS; i++)
-	    {
-	        System.out.println(i + magicItems[i]);
-	    }//for		
+//		for(int i = 0; i < NUMOFITEMS; i++)
+//	    {
+//	        System.out.println(i + magicItems[i]);
+//	    }//for		
 		shuffle(magicItems, NUMOFITEMS);
 		mergeSort(magicItems);
 		shuffle(magicItems, NUMOFITEMS);
@@ -142,7 +142,7 @@ static int insertion (String items[],final int TOTNUM )
 		while((j > -1) && ( items[j] .compareToIgnoreCase(key) >0 ))
 		{
 			comparisons ++; 
-					 items [j+1] = items [j];  
+			items [j+1] = items [j];  
              j--; 
 		}//for j
 		items[j+1] = key; 
