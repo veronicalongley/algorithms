@@ -96,10 +96,10 @@ static int selectionSort( String items[], final int TOTNUM)
 		int minIndex = i; 
 		String minItem = items[i];
 		String temp = "";
-		comparisons ++;
+		
 		for (int j = i + 1; j < TOTNUM; j++)
 		{
-			
+			comparisons ++;
 			if (items[j].compareToIgnoreCase(minItem) < 0)
 			{
 				minItem = items[j];
@@ -182,17 +182,16 @@ static void merge(String[]items, String[]left, String[]right)
 	
 	for(int j = 0; j < items.length; j++)
 	{
+		mergeComparisons++;
 		if(y >= right.length || (x < left.length && left[x].compareToIgnoreCase(right[y]) < 0))
 		{
 			items[j]= left[x];
 			x++;
-			main.mergeComparisons++;
 		}//if
 		else
 		{
 			items[j] = right[y];
 			y++;
-		//	main.mergeComparisons++;
 		}//else
 	}//for
 	
@@ -214,14 +213,14 @@ static int pivot(String items[], int left, int right)
 	int x = (left - 1);
 	for(int j = left; j < right; j++)
 	{
-		
+		quickComparisons++;
 		if(items[j].compareToIgnoreCase(pivot) < 0)
 		{
 			x++;
 			String temp = items[x];
             items[x] = items[j];
             items[j] = temp;
-            quickComparisons++;
+       //     quickComparisons++;
 		}//if
 		
 	}//for
