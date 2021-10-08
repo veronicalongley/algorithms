@@ -61,24 +61,33 @@ static Scanner keyboard = new Scanner(System.in);
 			ex.printStackTrace();
 			}//catch
 		
-		//int ssnum = 0;
-		selectionSort(magicItems, NUMOFITEMS);
+		int ssnum = 0; 
+		int isnum = 0;
+		int msnum = 0;
+		int qsnum = 0;
+		
 		shuffle(magicItems, NUMOFITEMS);
-		insertion(magicItems, NUMOFITEMS);
+		ssnum = selectionSort(magicItems, NUMOFITEMS);
 		shuffle(magicItems, NUMOFITEMS);
-		mergeSort(magicItems);
+		isnum = insertion(magicItems, NUMOFITEMS);
+		shuffle(magicItems, NUMOFITEMS);
+		msnum = mergeSort(magicItems);
+		shuffle(magicItems, NUMOFITEMS);
+		qsnum = quicksort(magicItems, 0, NUMOFITEMS-1);
 	    for(int i = 0; i < NUMOFITEMS; i++)
 	    {
 	        System.out.println(i + magicItems[i]);
 	    }//for
+	    System.out.println(qsnum);
 
 		
 		
 	}//main
 
 
-static void selectionSort( String items[], final int TOTNUM)
+static int selectionSort( String items[], final int TOTNUM)
 {
+	int comparisons = 0; 
 	for(int i = 0; i < TOTNUM - 1; i++)
 	{
 		int minIndex = i; 
@@ -86,6 +95,7 @@ static void selectionSort( String items[], final int TOTNUM)
 		String temp = "";
 		for (int j = i + 1; j < TOTNUM; j++)
 		{
+			comparisons ++;
 			if (items[j].compareToIgnoreCase(minItem) < 0)
 			{
 				minItem = items[j];
@@ -101,6 +111,7 @@ static void selectionSort( String items[], final int TOTNUM)
 	        items[i] = temp;
 		}//if
 	}//for i
+	return comparisons;
 }//selection sort
 
 static void shuffle (String items [], final int TOTNUM)
@@ -117,12 +128,14 @@ static void shuffle (String items [], final int TOTNUM)
 	}//for
 }//shuffle
 
-static void insertion (String items[],final int TOTNUM ) 
+static int insertion (String items[],final int TOTNUM ) 
 {
+	int comparisons = 0;
 	for(int i = 0; i < TOTNUM -1; i++)
 	{
 		for (int j = i + 1;j>0; j--)
 		{
+			comparisons ++; 
 			if(items[j].compareToIgnoreCase(items[j-1]) < 0)
 			{
 				String temp = items[j];
@@ -131,28 +144,34 @@ static void insertion (String items[],final int TOTNUM )
 			}//if
 		}//for j
 	}//for i
+	return comparisons;
  
 }//insertion
 
-static void mergeSort (String items[])
+static int mergeSort (String items[])
 {
+	int comparisons = 0; 
 	if(items.length > 1)
 	{
 		String[] left = new String [items.length/2];
 		String[] right = new String [items.length- (items.length /2)];
 		for(int i = 0; i< left.length; i++)
 		{
+			comparisons ++; 
 			left[i]= items[i];
 		}//for i
 		for(int i = 0; i< right.length; i++)
 		{
+			comparisons ++; 
 			right[i]= items[i+items.length/2];
 		}//for i 
 		
 		mergeSort(left);
 		mergeSort(right);
 		merge(items, left, right);
+		
 	}
+	return comparisons;
 }//mergeSort
 
 static void merge(String[]items, String[]left, String[]right)
@@ -173,5 +192,54 @@ static void merge(String[]items, String[]left, String[]right)
 		}//else
 	}//for
 }//merge
+
+static void random(String items [], int left, int right)
+{
+	Random random = new Random();
+	int pivot = random.nextInt(right - left)+ left;
+	String temp = items[pivot];
+	items[pivot]= items[right];
+	items[right] = temp;
+}//random
+
+static int pivot(String items[], int left, int right)
+{
+	random(items, left, right);
+	String pivot = items[right];
+	int x = (left - 1);
+//	int comparisons = 0;
+	for(int j = left; j < right; j++)
+	{
+		
+		if(items[j].compareToIgnoreCase(pivot) < 0)
+		{
+			x++;
+			String temp = items[x];
+            items[x] = items[j];
+            items[j] = temp;
+		}//if
+		//comparisons++;
+	}//for
+	
+	String temp2 = items[x+1];
+    items[x+1] = items[right];
+    items[right] = temp2;
+
+    return x+1;
+}//pivot
+
+static int quicksort (String items[], int left, int right)
+{
+	int comparisons = 0; 
+	if(left < right)
+	{
+		comparisons++;
+		int piv = pivot(items, left, right);
+		quicksort(items, left, piv-1);
+		quicksort(items, piv+1, right);
+		
+	}//if
+	return comparisons;
+}//quicksort
 
 }//main 
