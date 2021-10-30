@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class main {
 
+	public static int linearComparisons;
+
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -22,6 +24,7 @@ static Scanner keyboard = new Scanner(System.in);
 		String [] subArray = new String [SUBARRAYSIZE];
 		String theitem = null;
 		fileName = "magicitems.txt";
+		int linSearchComp = 0;
 		
 		//input item names from file and store in array
 		try
@@ -68,12 +71,20 @@ static Scanner keyboard = new Scanner(System.in);
 	//		System.out.println(subArray[j]);
 		}//for
 		
-		mergeSort(subArray);
+		mergeSort(magicItems);
 		System.out.println();
-		for (int j = 0; j < 42; j++)
+//		for (int j = 0; j < SUBARRAYSIZE; j++)
+//		{
+//			System.out.println(subArray[j]);
+//		}//for
+		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
-			System.out.println(subArray[j]);
-		}//for
+			linSearchComp = linearSearch(magicItems, subArray[i]);
+			System.out.println(linSearchComp);
+			
+		}
+		System.out.println();
+		System.out.println(linearComparisons/SUBARRAYSIZE);
 		
 	}//main
 	
@@ -150,6 +161,24 @@ static Scanner keyboard = new Scanner(System.in);
 		items[pivot]= items[right];
 		items[right] = temp;
 	}//random
+	
+	static int linearSearch(String items[], String target)
+	{
+		int comparisons = 0; 
+		int loc = -1;
+		int l = 0;
+	//	for (int l = 0; l < items.length; l++)
+		while(items[l] != target)
+		{
+			comparisons++;
+			linearComparisons ++;
+			if(items[l]==target)
+				loc = l;
+			l++;
+		}
+		
+		return comparisons;
+	}
 	
 }//main
 	
