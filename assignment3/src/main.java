@@ -65,8 +65,15 @@ static Scanner keyboard = new Scanner(System.in);
 		for (int j = 0; j < 42; j++)
 		{
 			subArray[j] = magicItems[j];
+	//		System.out.println(subArray[j]);
 		}//for
 		
+		mergeSort(subArray);
+		System.out.println();
+		for (int j = 0; j < 42; j++)
+		{
+			System.out.println(subArray[j]);
+		}//for
 		
 	}//main
 	
@@ -83,6 +90,66 @@ static Scanner keyboard = new Scanner(System.in);
 	        items[change] = temp;
 		}//for
 	}//shuffle
+	
+	static void mergeSort (String items[])
+	{
+
+		//if the sub-lists are not yet legth one
+		if(items.length > 1)
+		{
+			//divide in half again 
+			String[] left = new String [items.length/2];
+			String[] right = new String [items.length- (items.length /2)];
+			
+			//copy items into new arrays
+			for(int i = 0; i< left.length; i++)
+			{
+				left[i]= items[i];
+			}//for i
+			for(int i = 0; i< right.length; i++)
+			{
+				right[i]= items[i+items.length/2];
+			}//for i 
+			
+			//recursively calls merge sort for each side 
+			mergeSort(left);
+			mergeSort(right);
+			merge(items, left, right);
+			
+		}//if
+
+	}//mergeSort
+
+	static void merge(String[]items, String[]left, String[]right)
+	{
+		//merges sub-arrays
+		int x = 0;
+		int y = 0;
+		
+		for(int j = 0; j < items.length; j++)
+		{
+			if(y >= right.length || (x < left.length && left[x].compareToIgnoreCase(right[y]) < 0))
+			{
+				items[j]= left[x];
+				x++;
+			}//if
+			else
+			{
+				items[j] = right[y];
+				y++;
+			}//else
+		}//for
+		
+	}//merge
+
+	static void random(String items [], int left, int right)
+	{
+		Random random = new Random();
+		int pivot = random.nextInt(right - left)+ left;
+		String temp = items[pivot];
+		items[pivot]= items[right];
+		items[right] = temp;
+	}//random
 	
 }//main
 	
