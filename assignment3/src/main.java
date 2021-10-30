@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class main {
 
 	public static int linearComparisons;
-
+	public static int binaryComparisons;
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -25,6 +25,7 @@ static Scanner keyboard = new Scanner(System.in);
 		String theitem = null;
 		fileName = "magicitems.txt";
 		int linSearchComp = 0;
+		int binSearchComp = 0;
 		
 		//input item names from file and store in array
 		try
@@ -85,6 +86,13 @@ static Scanner keyboard = new Scanner(System.in);
 		}
 		System.out.println();
 		System.out.println(linearComparisons/SUBARRAYSIZE);
+		System.out.println();
+		for(int i = 0; i<SUBARRAYSIZE; i++)
+		{
+			binSearchComp = binarySearch(magicItems, 0, NUMOFITEMS -1, subArray[i]);
+			System.out.println(binSearchComp);	
+		}
+		System.out.println(binaryComparisons/SUBARRAYSIZE);
 		
 	}//main
 	
@@ -178,6 +186,27 @@ static Scanner keyboard = new Scanner(System.in);
 		}
 		
 		return comparisons;
+	}
+	
+	static int binarySearch(String items[], int left, int right, String target)
+	{
+		
+		int comp = 0;
+		int loc = -1;
+		binaryComparisons++;
+		comp++;
+		if (right >= left)
+		{
+			int middle = 0;
+			middle = 1+ (right+left)/2;
+			if(items[middle].compareToIgnoreCase(target) == 0)
+				loc = middle;
+			if(items[middle].compareToIgnoreCase(target) > 0)
+				loc = binarySearch(items, left, middle - 1, target);
+			else
+				loc = binarySearch(items, middle + 1, right, target);
+		}
+		return comp;
 	}
 	
 }//main
