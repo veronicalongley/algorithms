@@ -81,18 +81,18 @@ static Scanner keyboard = new Scanner(System.in);
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			linSearchComp = linearSearch(magicItems, subArray[i]);
-			//System.out.println(linSearchComp);
+			System.out.println(linSearchComp);
 			
 		}
 		System.out.println();
-		System.out.println("The number of comparisons using linear search: "+ linearComparisons/SUBARRAYSIZE);
+		System.out.println("The average number of comparisons using linear search: "+ linearComparisons/SUBARRAYSIZE);
 		System.out.println();
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			binSearchComp = binarySearch(magicItems, subArray[i]);
-			//System.out.println(binSearchComp);	
+			System.out.println(binSearchComp);	
 		}
-		System.out.println("The number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
+		System.out.println("The average number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
 		
 	}//main
 	
@@ -188,8 +188,11 @@ static Scanner keyboard = new Scanner(System.in);
 	        int right = items.length - 1;
 	        int pos = 0;
 	        int index = -1;
+	        int indivComp = 0;
 	        while (left <= right) {
+	        	
 	        	binaryComparisons++;
+	        	indivComp++;
 	            middle = left + (right - left) / 2;
 	 
 	            pos = target.compareTo(items[middle]);
@@ -207,7 +210,7 @@ static Scanner keyboard = new Scanner(System.in);
 	                right = middle - 1;
 	        }
 	 
-	        return index;
+	        return indivComp;
 	    }
 	
 }//main
