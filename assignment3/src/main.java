@@ -89,9 +89,11 @@ static Scanner keyboard = new Scanner(System.in);
 		System.out.println();
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
-			binSearchComp = binarySearch(magicItems, 0, NUMOFITEMS -1, subArray[i]);
+		//	binSearchComp = binarySearch(magicItems, 0, NUMOFITEMS -1, subArray[i]);
+			binSearchComp = binarySearch(magicItems, subArray[i]);
 			System.out.println(binSearchComp);	
 		}
+		System.out.println();
 		System.out.println(binaryComparisons/SUBARRAYSIZE);
 		
 	}//main
@@ -161,14 +163,6 @@ static Scanner keyboard = new Scanner(System.in);
 		
 	}//merge
 
-	static void random(String items [], int left, int right)
-	{
-		Random random = new Random();
-		int pivot = random.nextInt(right - left)+ left;
-		String temp = items[pivot];
-		items[pivot]= items[right];
-		items[right] = temp;
-	}//random
 	
 	static int linearSearch(String items[], String target)
 	{
@@ -188,26 +182,35 @@ static Scanner keyboard = new Scanner(System.in);
 		return comparisons;
 	}
 	
-	static int binarySearch(String items[], int left, int right, String target)
-	{
-		
-		int comp = 0;
-		int loc = -1;
-		binaryComparisons++;
-		comp++;
-		if (right >= left)
-		{
-			int middle = 0;
-			middle = 1+ (right+left)/2;
-			if(items[middle].compareToIgnoreCase(target) == 0)
-				loc = middle;
-			if(items[middle].compareToIgnoreCase(target) > 0)
-				loc = binarySearch(items, left, middle - 1, target);
-			else
-				loc = binarySearch(items, middle + 1, right, target);
-		}
-		return comp;
-	}
+	
+	  static int binarySearch(String[] arr, String x)
+	    {
+	        int left = 0;
+	        int middle = 0;
+	        int right = arr.length - 1;
+	        int pos = 0;
+	        int index = -1;
+	        while (left <= right) {
+	        	binaryComparisons++;
+	            middle = left + (right - left) / 2;
+	 
+	            pos = x.compareTo(arr[middle]);
+	 
+	            // Check if x is present at mid
+	            if (pos == 0)
+	                index = middle;
+	 
+	            // If x greater, ignore left half
+	            if (pos > 0)
+	                left = middle + 1;
+	 
+	            // If x is smaller, ignore right half
+	            else
+	                right = middle - 1;
+	        }
+	 
+	        return index;
+	    }
 	
 }//main
 	
