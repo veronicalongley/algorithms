@@ -81,20 +81,18 @@ static Scanner keyboard = new Scanner(System.in);
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			linSearchComp = linearSearch(magicItems, subArray[i]);
-			System.out.println(linSearchComp);
+			//System.out.println(linSearchComp);
 			
 		}
 		System.out.println();
-		System.out.println(linearComparisons/SUBARRAYSIZE);
+		System.out.println("The number of comparisons using linear search: "+ linearComparisons/SUBARRAYSIZE);
 		System.out.println();
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
-		//	binSearchComp = binarySearch(magicItems, 0, NUMOFITEMS -1, subArray[i]);
 			binSearchComp = binarySearch(magicItems, subArray[i]);
-			System.out.println(binSearchComp);	
+			//System.out.println(binSearchComp);	
 		}
-		System.out.println();
-		System.out.println(binaryComparisons/SUBARRAYSIZE);
+		System.out.println("The number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
 		
 	}//main
 	
@@ -183,18 +181,18 @@ static Scanner keyboard = new Scanner(System.in);
 	}
 	
 	
-	  static int binarySearch(String[] arr, String x)
+	  static int binarySearch(String[] items, String target)
 	    {
 	        int left = 0;
 	        int middle = 0;
-	        int right = arr.length - 1;
+	        int right = items.length - 1;
 	        int pos = 0;
 	        int index = -1;
 	        while (left <= right) {
 	        	binaryComparisons++;
 	            middle = left + (right - left) / 2;
 	 
-	            pos = x.compareTo(arr[middle]);
+	            pos = target.compareTo(items[middle]);
 	 
 	            // Check if x is present at mid
 	            if (pos == 0)
