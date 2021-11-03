@@ -8,6 +8,7 @@ public class main {
 
 	public static int linearComparisons;
 	public static int binaryComparisons;
+	private static final int HASH_TABLE_SIZE = 250;
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -65,19 +66,25 @@ static Scanner keyboard = new Scanner(System.in);
 			ex.printStackTrace();
 			}//catch
 
+		//shuffle the 666 magic items
 		shuffle(magicItems, NUMOFITEMS);
+		//pick the first 42 and store them in a sub-array
 		for (int j = 0; j < 42; j++)
 		{
 			subArray[j] = magicItems[j];
 	//		System.out.println(subArray[j]);
 		}//for
 		
+		//use merge sort to order the original 666 magic items
 		mergeSort(magicItems);
 		System.out.println();
 //		for (int j = 0; j < SUBARRAYSIZE; j++)
 //		{
 //			System.out.println(subArray[j]);
 //		}//for
+		
+		//linear search for each of the 42 sub-array items
+		//print the number of comparisons associated with each item
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			linSearchComp = linearSearch(magicItems, subArray[i]);
@@ -85,14 +92,28 @@ static Scanner keyboard = new Scanner(System.in);
 			
 		}
 		System.out.println();
+		
+		//Print the average number of comparisons for linear search
 		System.out.println("The average number of comparisons using linear search: "+ linearComparisons/SUBARRAYSIZE);
 		System.out.println();
+		
+		//binary search for each of the 42 sub-array items
+		//print the number of comparisons associated with each item
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			binSearchComp = binarySearch(magicItems, subArray[i]);
 			System.out.println(binSearchComp);	
 		}
+		
+		//Print the average number of comparisons for binary search
 		System.out.println("The average number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
+		
+		
+		
+		for(int i = 0; i<NUMOFITEMS; i++)
+		{
+		}
+		
 		
 	}//main
 	
@@ -113,7 +134,7 @@ static Scanner keyboard = new Scanner(System.in);
 	static void mergeSort (String items[])
 	{
 
-		//if the sub-lists are not yet legth one
+		//if the sub-lists are not yet length one
 		if(items.length > 1)
 		{
 			//divide in half again 
@@ -167,7 +188,6 @@ static Scanner keyboard = new Scanner(System.in);
 		int comparisons = 0; 
 		int loc = -1;
 		int l = 0;
-	//	for (int l = 0; l < items.length; l++)
 		while(items[l] != target)
 		{
 			comparisons++;
@@ -175,10 +195,10 @@ static Scanner keyboard = new Scanner(System.in);
 			if(items[l]==target)
 				loc = l;
 			l++;
-		}
+		}//while
 		
 		return comparisons;
-	}
+	}//linear search
 	
 	
 	  static int binarySearch(String[] items, String target)
@@ -189,7 +209,7 @@ static Scanner keyboard = new Scanner(System.in);
 	        int pos = 0;
 	        int index = -1;
 	        int indivComp = 0;
-	        while (left <= right) {
+	        while (left <= right && index ==-1) {
 	        	
 	        	binaryComparisons++;
 	        	indivComp++;
@@ -208,11 +228,14 @@ static Scanner keyboard = new Scanner(System.in);
 	            // If x is smaller, ignore right half
 	            else
 	                right = middle - 1;
-	        }
+	        }//while
 	 
 	        return indivComp;
-	    }
+	    }//binary search
 	
+
+	  
+	  
 }//main
 	
 	
