@@ -9,7 +9,6 @@ public class main {
 	public static int linearComparisons;
 	public static int binaryComparisons;
 	public static int hashTableComparisons;
-	private static final int HASH_TABLE_SIZE = 250;
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -107,12 +106,12 @@ static Scanner keyboard = new Scanner(System.in);
 		
 		System.out.println();
 		System.out.println("Hash Table: ");
-		HashTable hash = new HashTable();
+		HashTable ourHashTable = new HashTable();
 		
 		//fill hash table
 		for(int i = 0; i<NUMOFITEMS; i++)
 		{
-			hash.put(magicItems [i], magicItems[i]);
+			ourHashTable.put(magicItems [i], magicItems[i]);
 		}
 		
 		
@@ -121,11 +120,11 @@ static Scanner keyboard = new Scanner(System.in);
 		for(int j = 0; j < SUBARRAYSIZE; j++)
 		{
 			int itemcomp = 0; 
-			itemcomp = hash.objComps(subArray[j]);
+			itemcomp = ourHashTable.objComps(subArray[j]);
 			if (itemcomp == 1)
-				System.out.println(itemcomp + " comparison to locate " + hash.get(subArray[j]));
+				System.out.println(itemcomp + " comparison to locate " + ourHashTable.get(subArray[j]));
 			else
-				System.out.println(itemcomp + " comparisons to locate " + hash.get(subArray[j]));
+				System.out.println(itemcomp + " comparisons to locate " + ourHashTable.get(subArray[j]));
 			hashTableComparisons += itemcomp;
 		}//for
 		
@@ -204,14 +203,13 @@ static Scanner keyboard = new Scanner(System.in);
 	static int linearSearch(String items[], String target)
 	{
 		int comparisons = 0; 
-		int loc = -1;
 		int l = 0;
+		//while the item we are checking does not match the target
+		// move to next item and increment comparisons 
 		while(items[l] != target)
 		{
 			comparisons++;
 			linearComparisons ++;
-			if(items[l]==target)
-				loc = l;
 			l++;
 		}//while
 		
@@ -227,6 +225,9 @@ static Scanner keyboard = new Scanner(System.in);
 	        int pos = 0;
 	        int index = -1;
 	        int indivComp = 0;
+	        
+	        //while left is less than or equal to right and index has not been found
+	        //increment comparisons and divide again
 	        while (left <= right && index ==-1) {
 	        	
 	        	binaryComparisons++;
