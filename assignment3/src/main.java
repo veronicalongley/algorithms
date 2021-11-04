@@ -129,7 +129,6 @@ static Scanner keyboard = new Scanner(System.in);
 		}//for
 		
 		
-		System.out.println();
 		System.out.println("The average number of comparisons using a hash table : " + hashTableComparisons / SUBARRAYSIZE);
 		
 	}//main
