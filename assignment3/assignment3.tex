@@ -1,0 +1,415 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{xcolor}
+ \geometry{
+ left=20mm,
+ top=20mm,
+ }
+\title{\textbf{Algorithms Assignment 3}}
+\author{Veronica Longley }
+\date{November 5, 2021}
+\definecolor{codeblue}{rgb}{0,0,255}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\lstdefinestyle{mystyle}{   
+    commentstyle=\color{codeblue},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple}
+    }
+\lstset{style=mystyle}
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 435 - Fall 2021 - Veronica Longley} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Assignment Three    	    \\ % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+\begin{document}
+
+\lstset{numbers= left}
+\lstset{language=Java}
+\huge
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+
+\maketitle{}
+
+
+\pagebreak
+\large
+\textbf{Our Goal:}
+In this assignment we will compare Linear Search, Binary Search and a Hash Table. We will be searching for a random 42 magic items from a list of 666 magic items. We will count the number of comparisons to find each of the 42 sub-array items for each of the searching implementations as well as the average number of comparisons for each of the three searches. 
+
+\small
+\section{Linear Search}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+	static int linearSearch(String items[], String target)
+	{
+		int comparisons = 0; 
+		int l = 0;
+		//while the item we are checking does not match the target
+		// move to next item and increment comparisons 
+		while(items[l] != target)
+		{
+			comparisons++;
+			linearComparisons ++;
+			l++;
+		}//while
+				
+		return comparisons;
+	}//linear search
+\end{lstlisting}
+\large
+Linear search works by going through the entire list of items until the one that matches the one were looking for is found. As seen in line 8, while the item is not equal to the target we increment the number of comparisons as well as the counter through the list of 666 magic items. In main we call this method for each of the 42 sub-array items and output the number of comparisons for each one as well as the average number of comparisons for linear search. The global variable on line 10 is incremented for all comparisons for all 42 sub-array items and then divided by 42 later in main to output the average number of comparisons. This will be around 333 because sometimes the items will be in the beginning of the list and require less comparisons while sometimes the item will be towards the end of the list and require more. On average over the 42 items, it will be very close to 333 as this is half of 666; similarly while linear search is O(n), on average it will be much closer to O(n/2). 
+
+\small
+\section{Binary Search}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+	  static int binarySearch(String[] items, String target)
+	    {
+	        int left = 0;
+	        int middle = 0;
+	        int right = items.length - 1;
+	        int pos = 0;
+	        int index = -1;
+	        int indivComp = 0;
+	        
+	        //while left is less than or equal to right and index has not
+	        // been found increment comparisons and divide again
+	        while (left <= right && index ==-1) {
+	        	
+	        	binaryComparisons++;
+	        	indivComp++;
+	            middle = left + (right - left) / 2;
+	 
+	            pos = target.compareTo(items[middle]);
+	 
+	            // Check if x is present at mid
+	            if (pos == 0)
+	                index = middle;
+	 
+	            // If x greater, ignore left half
+	            if (pos > 0)
+	                left = middle + 1;
+	 
+	            // If x is smaller, ignore right half
+	            else
+	                right = middle - 1;
+	        }//while
+	 
+	        return indivComp;
+	    }//binary search
+\end{lstlisting}
+\large
+Binary search is a bit more complicated. Binary search works by picking the middle element of an ordered list and checking if the target is equal to, less than, or greater than it. If it is equal to the search is over and the number of comparisons is returned. If the value we look at is less than the target then we ignore the lower half of the ordered items as if the one in the middle is less than the target all the ones before it must also be less than the target because the list is ordered. This is run recursively until the middle element picked is the target. Because we are able to cut the list in half each time we recursively call binary search, it is O(log(n)). For this case, we saw about 8 comparisons were needed to locate the items on average. 
+
+\small
+\section{Hash Table}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class HashTable {
+	
+	private static final int HASH_TABLE_SIZE = 250;
+	
+	public static class HashObj
+	{
+		public String key;
+		public String value;
+	}//HashObj
+	
+	private LinkedList<HashObj>[] arr = new LinkedList[HASH_TABLE_SIZE];
+	
+	//initialize to null
+	public HashTable()
+	{
+		for(int i = 0; i < HASH_TABLE_SIZE; i++)
+		{
+			arr[i] = null;
+		}//for
+	}//HashTable
+	
+	private HashObj getObj(String key) 
+	{
+		int index = -1;
+		
+		if (key == null)
+			return null;	
+		index = makeHashCode(key);
+		LinkedList<HashObj> items = arr[index];
+		if(items == null)
+			return null;
+		for(HashObj item : items)
+		{
+			if(item.key.equals(key))
+				return item; 
+		}//for
+		
+		return null;
+	}//HashObj
+	
+	//count comparisons
+	public int objComps(String key)
+	{
+		int hashTableComparisons = 0; 
+		
+		if(key == null)
+			return -1; 
+		int index = makeHashCode(key);
+		LinkedList<HashObj>items = arr[index];
+		
+		if(items == null)
+		{
+			return -1; 
+		}//if
+		
+		for(HashObj item : items )
+		{
+			hashTableComparisons ++; 
+			if(item.key.equals(key))
+				return hashTableComparisons;
+		}//for
+		
+		return -1;
+	}//objComps	
+	
+	public String get(String key)
+	{
+		HashObj item = getObj(key);
+		if(item == null)
+			return null;
+		else
+			return item.value;
+	}//get 
+	
+	
+	public void put(String key, String value)
+	{
+		int index = makeHashCode(key);
+		LinkedList<HashObj> items = arr[index];
+		if(items == null)
+		{
+			items = new LinkedList<HashObj> ();
+			HashObj item = new HashObj();
+			item.key = key;
+			item.value = value;
+			items.add(item);
+			arr[index ] = items;
+		}//if
+		
+		else 
+		{
+			for(HashObj item : items )
+			{
+				if(item.key.equals(key))
+				{
+					item.value = value;
+					return;
+				}//if
+			}//for
+			
+			HashObj item = new HashObj();
+			item.key = key;
+			item.value = value;
+			items.add(item);
+		}//else
+	}//put
+	
+	
+	private static int makeHashCode(String str) {
+	      str = str.toUpperCase();
+	      int length = str.length();
+	      int letterTotal = 0;
+
+	      // Iterate over all letters in the string, totaling their ASCII values.
+	      for (int i = 0; i < length; i++) {
+	         char thisLetter = str.charAt(i);
+	         int thisValue = (int)thisLetter;
+	         letterTotal = letterTotal + thisValue;
+
+	         // Test: print the char and the hash.
+	         /*
+	         System.out.print(" [");
+	         System.out.print(thisLetter);
+	         System.out.print(thisValue);
+	         System.out.print("] ");
+	         // */
+	      }
+
+	      // Scale letterTotal to fit in HASH_TABLE_SIZE.
+	      int hashCode = (letterTotal * 1) % HASH_TABLE_SIZE; 
+	      // % is the "mod" operator
+	      // TODO: Experiment with letterTotal * 2, 3, 5, 50, etc.
+
+	      return hashCode;
+	   }//makeHashCode
+	
+	
+}//HashTable
+\end{lstlisting}
+\large
+Hash tables work by converting each string into ASCII values then storing the string in the element of the array associated with the ASCII value mod the size of the hash table. We used a hash table of size 250 which means we will have to deal with collisions, multiple strings being stored at the same bucket of the hash table, as we have 666 items to organize and only 250 buckets. To deal with this, each bucket references a linked list where as many items as needed can be added. This means items with (ASCII values mod 250) values that are the same can reference each other, and when we go to look an item up we convert it to ASCII, calculate it's mod 250, go to that bucket, and linear search that bucket until we find it or establish it is not present. 
+
+We have several methods in the Hash Table class such as getObj, objComp, get, put, and makeHashCode. Put is responsible for adding the 666 items into the hash table. Get and getObj are used to locate the 42 items from the sub-array in the hash table of all 666 items. MakeHashCode is used to determine what bucket the item we are trying to add or look up should be in. It converts the string to ASCII values then calculates that value mod 250 to locate the bucket we will be adding to or searching through. ObjComp will be used for this assignment to count the number of comparisons to locate each item in the hash table. We will also have a global variable hashTableComparisons in main that will sum all of the comparisons for all the 42 look ups and divide by 42 to find the average number of comparisons to locate an item using a hash table. 
+
+\small
+\section{...In Main Method}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class main {
+
+	public static int linearComparisons;
+	public static int binaryComparisons;
+	public static int hashTableComparisons;
+	
+static Scanner keyboard = new Scanner(System.in);
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+
+		//initialize variables used to read in items from list
+		String fileName = ""; 
+		final int NUMOFITEMS = 666;
+		String [] magicItems = new String [NUMOFITEMS];
+		final int SUBARRAYSIZE = 42;
+		String [] subArray = new String [SUBARRAYSIZE];
+		String theitem = null;
+		fileName = "magicitems.txt";
+		int linSearchComp = 0;
+		int binSearchComp = 0;
+		
+		//input item names from file and store in array
+		try
+			{
+			Scanner readFile = new Scanner (new File (fileName));
+			int i = 0; 
+			while(readFile.hasNextLine())
+			{
+				theitem = readFile.nextLine();
+				magicItems[i] = theitem;
+				i++;
+			}//while
+			readFile.close();
+			}//try
+		catch(FileNotFoundException ex)
+			{
+			System.out.println("Failed to find file: "+ fileName);
+			}//catch
+		catch(InputMismatchException ex)
+			{
+			System.out.println("Type mismatch. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(NumberFormatException ex)
+			{
+			System.out.println("Failed to convert String. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(NullPointerException ex)
+			{
+			System.out.println("Null pointer exception. ");
+			System.out.println(ex.getMessage());
+			}//catch
+		catch(Exception ex)
+			{
+			System.out.println("Oops, something went wrong. ");
+			ex.printStackTrace();
+			}//catch
+
+		//shuffle the 666 magic items
+		shuffle(magicItems, NUMOFITEMS);
+		
+		//pick the first 42 and store them in a sub-array
+		for (int j = 0; j < 42; j++)
+		{
+			subArray[j] = magicItems[j];
+		}//for
+		
+		//use merge sort to order the original 666 magic items
+		mergeSort(magicItems);
+		
+		//linear search for each of the 42 sub-array items
+		//print the number of comparisons associated with each item
+		System.out.println("Linear Search: ");
+		for(int i = 0; i<SUBARRAYSIZE; i++)
+		{
+			linSearchComp = linearSearch(magicItems, subArray[i]);
+			System.out.println(linSearchComp+ " comparisons to locate "
+			+ subArray[i]);;
+			
+		}
+		
+		//Print the average number of comparisons for linear search
+		System.out.println("The average number of comparisons using 
+		linear search: "+ linearComparisons/SUBARRAYSIZE);
+		System.out.println();
+		
+		System.out.println("Binary Search: ");
+		//binary search for each of the 42 sub-array items
+		//print the number of comparisons associated with each item
+		for(int i = 0; i<SUBARRAYSIZE; i++)
+		{
+			binSearchComp = binarySearch(magicItems, subArray[i]);
+			System.out.println(binSearchComp+ " comparisons to locate " 
+			+ subArray[i]);	
+		}
+		
+		//Print the average number of comparisons for binary search
+		System.out.println("The average number of comparisons using binary
+		search: "+ binaryComparisons/SUBARRAYSIZE);
+		
+		System.out.println();
+		System.out.println("Hash Table: ");
+           HashTable ourHashTable = new HashTable();
+		
+		//fill hash table
+		for(int i = 0; i<NUMOFITEMS; i++)
+		{
+		   	ourHashTable.put(magicItems [i], magicItems[i]);
+		}
+		
+		
+		//locate the 42 sub-array items in hash table
+		//print the number of comparisons associated with each item
+		for(int j = 0; j < SUBARRAYSIZE; j++)
+		{
+			int itemcomp = 0; 
+			itemcomp = ourHashTable.objComps(subArray[j]);
+			if (itemcomp == 1)
+				System.out.println(itemcomp + "comparison to locate" 
+				+ ourHashTable.get(subArray[j]));
+			else
+				System.out.println(itemcomp + "comparisons to locate" 
+				+ ourHashTable.get(subArray[j]));
+			hashTableComparisons += itemcomp;
+		}//for
+		
+		
+		System.out.println();
+		System.out.println("The number of comparisons using a hash table:"
+		+ hashTableComparisons / SUBARRAYSIZE);
+		
+	}//main
+\end{lstlisting}
+\large
+To being main we will introduce three global variables to count all the comparisons for each of the three searches then divide by 42, the number of sub-array items, to determine the average number of comparisons for each search. Next, we will read in the file containing the 666 magic items. We then shuffle the 666 magic items to ensure the 42 we choose are truly random. After they are shuffled, we choose the first 42 items to be our sub-array. These will be the items we locate in the list of 666 items. Next we use merge sort to sort the original 666 magic items (the items will need to be sorted for binary search). First we will look at linear search. We use a for loop to call the linear search method for each of the 42 sub-array items and store and output the number of comparisons for each item. We also output the average number of comparisons by dividing the global counter, which is updated in the linear search method, by 42, the number of searches we conducted. Next is binary search. Similarly to linear search, we use a for look to call the binary search method for each of the 42 sub-array items, output the number for each item as well as the global counter divided by 42 to indicate the average for binary search. Lastly, for the hash table we must first create the hash table, line 107, then fill it using the put method for each of the 666 magic items. To locate the items we use another for loop and the objComps method to output the number of comparisons for each item. Lastly, we want to add this to the global counter for hash tables and once all 42 items are located, we can divide by 42 to output the average number of comparisons for searching using a hash table. 
+
+\large
+\section{Conclusion}
+The table below shows the searching method, the running time, and the average number of comparisons when searching through 666 items. 
+\begin{center}
+\begin{tabular}{ c c c }
+ Search & Running Time & Comparisons \\ 
+ Linear & O(n) & 333 \\ 
+ Binary & n^2 & 8 \\  
+ Hash Table & O(1) + load & 2 \\
+\end{tabular}
+\end{center}
+It is clear from the table above the ideal searching method would be a hash table. Maybe if you were only going to be searching for an element a few times using binary search would be more efficient just because creating a hash table is much more complicated than creating a binary search method. As for linear search, this may be useful if you were looking for an item in a list of 15 or 20 items, but probably not much more. It is overly clear here that linear search, which uses on average 333 comparisons, does not measure up to a hash table, which only needs 2 on average. It is also important to note that depending on the number of collisions, the average chain length of each bucket will vary. This means the look up time of O(1) + load is truly dependent on the load/average chain length. This is calculated by the number of items, 666, divided by the number of buckets, 250. In our case the load of our hash table is 2.664 which means on average the lookup time for an item will be O(1) + 2.664, which makes sense with our results. 
+\end{document}
+
