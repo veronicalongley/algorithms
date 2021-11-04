@@ -1,33 +1,112 @@
+import java.util.LinkedList;
 
 public class HashTable {
 	
 	private static final int HASH_TABLE_SIZE = 250;
-	private NodeLongley[] hashTable;
-	int mySize = 0;
 	
+	public static class HashObj
+	{
+		public String key;
+		public String value;
+	}//HashObj
+	
+	private LinkedList<HashObj>[] arr = new LinkedList[HASH_TABLE_SIZE];
+	
+	//initialize to null
 	public HashTable()
 	{
-		hashTable = new NodeLongley[HASH_TABLE_SIZE];
-		mySize = 0;
+		for(int i = 0; i < HASH_TABLE_SIZE; i++)
+		{
+			arr[i] = null;
+		}//for
 	}//HashTable
 	
-	public void insert(String str)
+	private HashObj getObj(String key) 
 	{
-		int position = -1;
-		mySize++;
-		position = makeHashCode(str);
-		NodeLongley insertion = new NodeLongley(str);
-		if (hashTable[position] == null)
-		{
-			hashTable[position] = insertion;
-		}//if
-		else
-		{
-			insertion.setNext(hashTable[position]);
-			hashTable[position] = insertion;
-		}//else
+		int index = -1;
 		
-	}//insert
+		if (key == null)
+			return null;	
+		index = makeHashCode(key);
+		LinkedList<HashObj> items = arr[index];
+		if(items == null)
+			return null;
+		for(HashObj item : items)
+		{
+			if(item.key.equals(key))
+				return item; 
+		}//for
+		
+		return null;
+	}//HashObj
+	
+	//count comparisons
+	public int objComps(String key)
+	{
+		int hashTableComparisons = 0; 
+		
+		if(key == null)
+			return -1; 
+		int index = makeHashCode(key);
+		LinkedList<HashObj>items = arr[index];
+		
+		if(items == null)
+		{
+			return -1; 
+		}//if
+		
+		for(HashObj item : items )
+		{
+			hashTableComparisons ++; 
+			if(item.key.equals(key))
+				return hashTableComparisons;
+		}//for
+		
+		return -1;
+	}//objComps	
+	
+	public String get(String key)
+	{
+		HashObj item = getObj(key);
+		if(item == null)
+			return null;
+		else
+			return item.value;
+	}//get 
+	
+	
+	public void put(String key, String value)
+	{
+		int index = makeHashCode(key);
+		LinkedList<HashObj> items = arr[index];
+		if(items == null)
+		{
+			items = new LinkedList<HashObj> ();
+			HashObj item = new HashObj();
+			item.key = key;
+			item.value = value;
+			items.add(item);
+			arr[index ] = items;
+		}//if
+		
+		else 
+		{
+			for(HashObj item : items )
+			{
+				if(item.key.equals(key))
+				{
+					item.value = value;
+					return;
+				}//if
+			}//for
+			
+			HashObj item = new HashObj();
+			item.key = key;
+			item.value = value;
+			items.add(item);
+		}//else
+	}//put
+	
 	
 	private static int makeHashCode(String str) {
 	      str = str.toUpperCase();
@@ -55,22 +134,6 @@ public class HashTable {
 
 	      return hashCode;
 	   }//makeHashCode
-	
-	private void printHashTable() 
-	{
-		System.out.println();
-		for(int i =0; i< hashTable.length; i++)
-		{
-			System.out.println("Bucket "+ i + ": ");
-			NodeLongley first = hashTable[i];
-			while(first != null)
-			{
-				System.out.println(first.getData() + "; ");
-				first.getNext();
-			}//while
-			System.out.println();
-		}//for
-	}//printHashTable
 	
 	
 }//HashTable

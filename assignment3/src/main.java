@@ -8,6 +8,7 @@ public class main {
 
 	public static int linearComparisons;
 	public static int binaryComparisons;
+	public static int hashTableComparisons;
 	private static final int HASH_TABLE_SIZE = 250;
 	
 static Scanner keyboard = new Scanner(System.in);
@@ -68,52 +69,69 @@ static Scanner keyboard = new Scanner(System.in);
 
 		//shuffle the 666 magic items
 		shuffle(magicItems, NUMOFITEMS);
+		
 		//pick the first 42 and store them in a sub-array
 		for (int j = 0; j < 42; j++)
 		{
 			subArray[j] = magicItems[j];
-	//		System.out.println(subArray[j]);
 		}//for
 		
 		//use merge sort to order the original 666 magic items
 		mergeSort(magicItems);
-		System.out.println();
-//		for (int j = 0; j < SUBARRAYSIZE; j++)
-//		{
-//			System.out.println(subArray[j]);
-//		}//for
 		
 		//linear search for each of the 42 sub-array items
 		//print the number of comparisons associated with each item
+		System.out.println("Linear Search: ");
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			linSearchComp = linearSearch(magicItems, subArray[i]);
-			System.out.println(linSearchComp);
+			System.out.println(linSearchComp+ " comparisons to locate " + subArray[i]);;
 			
 		}
-		System.out.println();
 		
 		//Print the average number of comparisons for linear search
 		System.out.println("The average number of comparisons using linear search: "+ linearComparisons/SUBARRAYSIZE);
 		System.out.println();
 		
+		System.out.println("Binary Search: ");
 		//binary search for each of the 42 sub-array items
 		//print the number of comparisons associated with each item
 		for(int i = 0; i<SUBARRAYSIZE; i++)
 		{
 			binSearchComp = binarySearch(magicItems, subArray[i]);
-			System.out.println(binSearchComp);	
+			System.out.println(binSearchComp+ " comparisons to locate " + subArray[i]);	
 		}
 		
 		//Print the average number of comparisons for binary search
 		System.out.println("The average number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
 		
+		System.out.println();
+		System.out.println("Hash Table: ");
+		HashTable hash = new HashTable();
 		
-		
+		//fill hash table
 		for(int i = 0; i<NUMOFITEMS; i++)
 		{
+			hash.put(magicItems [i], magicItems[i]);
 		}
 		
+		
+		//locate the 42 sub-array items in hash table
+		//print the number of comparisons associated with each item
+		for(int j = 0; j < SUBARRAYSIZE; j++)
+		{
+			int itemcomp = 0; 
+			itemcomp = hash.objComps(subArray[j]);
+			if (itemcomp == 1)
+				System.out.println(itemcomp + " comparison to locate " + hash.get(subArray[j]));
+			else
+				System.out.println(itemcomp + " comparisons to locate " + hash.get(subArray[j]));
+			hashTableComparisons += itemcomp;
+		}//for
+		
+		
+		System.out.println();
+		System.out.println("The average number of comparisons using a hash table : " + hashTableComparisons / SUBARRAYSIZE);
 		
 	}//main
 	
