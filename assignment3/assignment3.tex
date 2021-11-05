@@ -261,9 +261,9 @@ We have several methods in the Hash Table class such as getObj, objComp, get, pu
 backgroundcolor = \color{grey!12}]
 public class main {
 
-	public static int linearComparisons;
-	public static int binaryComparisons;
-	public static int hashTableComparisons;
+	public static float linearComparisons;
+	public static float binaryComparisons;
+	public static float hashTableComparisons;
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -404,10 +404,10 @@ To being main we will introduce three global variables to count all the comparis
 The table below shows the searching method, the running time, and the average number of comparisons when searching through 666 items. 
 \begin{center}
 \begin{tabular}{ c c c }
- Search & Running Time & Comparisons \\ 
- Linear & O(n) & 333 \\ 
- Binary & n^2 & 8 \\  
- Hash Table & O(1) + load & 2 \\
+ Search & Running Time & Approximate Comparisons \\ 
+ Linear & O(n) &   334.833 \\ 
+ Binary & n^2 & 8.167 \\  
+ Hash Table & O(1) + load & 2.024 \\
 \end{tabular}
 \end{center}
 It is clear from the table above the ideal searching method would be a hash table. Maybe if you were only going to be searching for an element a few times using binary search would be more efficient just because creating a hash table is much more complicated than creating a binary search method. As for linear search, this may be useful if you were looking for an item in a list of 15 or 20 items, but probably not much more. It is overly clear here that linear search, which uses on average 333 comparisons, does not measure up to a hash table, which only needs 2 on average. It is also important to note that depending on the number of collisions, the average chain length of each bucket will vary. This means the look up time of O(1) + load is truly dependent on the load/average chain length. This is calculated by the number of items, 666, divided by the number of buckets, 250. In our case the load of our hash table is 2.664 which means on average the lookup time for an item will be O(1) + 2.664, which makes sense with our results. 
