@@ -3,12 +3,13 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.math.*;
 
 public class main {
 
-	public static int linearComparisons;
-	public static int binaryComparisons;
-	public static int hashTableComparisons;
+	public static float linearComparisons;
+	public static float binaryComparisons;
+	public static float hashTableComparisons;
 	
 static Scanner keyboard = new Scanner(System.in);
 
@@ -102,7 +103,7 @@ static Scanner keyboard = new Scanner(System.in);
 		}
 		
 		//Print the average number of comparisons for binary search
-		System.out.println("The average number of comparisons using binary search: "+ binaryComparisons/SUBARRAYSIZE);
+		System.out.println("The average number of comparisons using binary search: "+(binaryComparisons/SUBARRAYSIZE));
 		
 		System.out.println();
 		System.out.println("Hash Table: ");
