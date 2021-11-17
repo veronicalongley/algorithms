@@ -67,7 +67,7 @@ public class Graph {
 	}//makeGraph
 
 	
-	public void printAdjacencyList(Graph graph)
+	public void printAdjList(Graph graph)
 	{
 		
 	}

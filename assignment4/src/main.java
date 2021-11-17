@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.math.*;
+import java.util.ArrayList;
 
 public class main {
 	public static float totalComparisons;
@@ -57,7 +58,20 @@ public class main {
 		Graph fourthGraph = new Graph();
 		Graph fifthGraph = new Graph();
 		
-
+		ArrayList<String> firstGraphCmd = new ArrayList<>();
+		for(int h = 0; h < graph[h].indexOf(" "); h++)
+		{
+			firstGraphCmd.add(graph[h]);
+		}//for
+		
+		firstGraph.makeGraph(firstGraphCmd);
+		
+		System.out.println();
+		System.out.println("Matrix Form: ");
+		firstGraph.printMatrix(firstGraph);
+		System.out.println();
+		System.out.println("Adjacency List: ");
+		firstGraph.printAdjList(firstGraph);
 		
 	 
 		
@@ -75,12 +89,12 @@ public class main {
 		try
 			{
 			Scanner readFile = new Scanner (new File (file2Name));
-			int i = 0; 
+			int g = 0; 
 			while(readFile.hasNextLine())
 			{
 				theitem = readFile.nextLine();
-				magicItems[i] = theitem;
-				i++;
+				magicItems[g] = theitem;
+				g++;
 			}//while
 			readFile.close();
 			}//try
