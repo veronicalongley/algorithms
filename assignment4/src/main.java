@@ -12,7 +12,7 @@ public class main {
 
 	public static void main(String[] args) 
 	{
-		String fileName = "graphs.txt";
+		String fileName = "graphs1.txt";
 		
 		String [] graph = new String[375];
 		int i =0;
@@ -22,7 +22,7 @@ public class main {
 		while (readFile.hasNextLine()) 
 		   {
 			   	graph[i]= readFile.nextLine();
-			   //	System.out.println(graph[i]);
+			   //System.out.println(graph[i]);
 			   	i++;
 		   }//while
 
@@ -59,12 +59,20 @@ public class main {
 		Graph fifthGraph = new Graph();
 		
 		ArrayList<String> firstGraphCmd = new ArrayList<>();
-		for(int h = 0; h < graph[h].indexOf(" "); h++)
+		ArrayList<String> secondGraphCmd = new ArrayList<>();
+		ArrayList<String> thirdGraphCmd = new ArrayList<>();
+		ArrayList<String> fourthGraphCmd = new ArrayList<>();
+		ArrayList<String> fifthGraphCmd = new ArrayList<>();
+		
+		for(int h = 0; h < 20; h++)
 		{
 			firstGraphCmd.add(graph[h]);
 		}//for
 		
-		firstGraph.makeGraph(firstGraphCmd);
+		//System.out.println(firstGraphCmd);
+		
+		firstGraph.makeGraph(firstGraphCmd);		
+
 		
 		System.out.println();
 		System.out.println("Matrix Form: ");
@@ -73,7 +81,27 @@ public class main {
 		System.out.println("Adjacency List: ");
 		firstGraph.printAdjList(firstGraph);
 		
-	 
+		firstGraph.depthFT(firstGraph.theVertices.get(0));
+		firstGraph.reset(firstGraph.theVertices.get(0));
+		firstGraph.breadthFT(firstGraph.theVertices.get(0));
+		
+		int next = 0;
+		int endOfNext = 0;
+		int empty = 0; 
+		
+		for (int k = 22; k < 58; k++)
+		{
+			secondGraphCmd.add(graph[k]);
+		}
+		
+		secondGraph.makeGraph(secondGraphCmd);
+		
+		System.out.println();
+		System.out.println("Matrix Form: ");
+		secondGraph.printMatrix(secondGraph);
+		System.out.println();
+		System.out.println("Adjacency List: ");
+		secondGraph.printAdjList(secondGraph);
 		
 		
 		
