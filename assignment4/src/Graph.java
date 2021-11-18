@@ -6,7 +6,7 @@ public class Graph {
 	
 	public ArrayList<Vertex> theVertices;
 	 
-	
+	//Graph theGraph;
 	
 	public Graph()
 	{
@@ -28,64 +28,22 @@ public class Graph {
 	}//getnumOfVertices
 	
 	
-	public void makeGraph(ArrayList<String> list)
-	{
-		for (int i = 0; i<list.size(); i++)
-		{
-			if(list.get(i).equals("")|| list.get(i ).substring(0, 2).equals("--"))
-			{
-				System.out.println(list.get(i));
-			}//if
-			
-			else if (list.get(i).contains("vertex"))
-			{
-				int val = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf(" ") + 1 ));
-				//System.out.println("Adding Vertex");
-				addVertex(val);
-			}//else if
-			
-			else if (list.get(i).contains("edge"))
-			{
-				int start = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf("e") + 2, list.get(i).indexOf("-") -1 ));
-				int end = Integer.parseInt(list.get(i).substring(list.get(i).indexOf("-") + 2 ));
-				
-				//System.out.println("Adding edge" + start+ " -  " + end);
-				
-				if(theVertices.get(0).getid() == 0)
-				{
-					theVertices.get(start).addEdge(theVertices.get(end));
-					theVertices.get(end).addEdge(theVertices.get(start));
-				}//if
-				
-				else
-				{
-					//System.out.println("Adding edge to vertex " + theVertices.get(start -1 ).getid());
-					theVertices.get(start - 1 ).addEdge(theVertices.get(end - 1));
-					theVertices.get(end - 1 ).addEdge(theVertices.get(start - 1));
-
-				}//else
-				
-			}//else if
-			
-			else
-			{
-				
-			}//else
-		}//for
-	}//makeGraph
 
 	
 	public void printAdjList(Graph graph)
 	{
-		for(int j = 0; j < graph.numOfVertices; j++)
-		{
-			System.out.print(graph.theVertices.get(j).getid()+ " | ");
-			for(int q = 0; q < graph.theVertices.get(j).neighbors.size(); q++)
+		
+			for(int j = 0; j < graph.numOfVertices; j++)
 			{
-				System.out.print(graph.theVertices.get(j).neighbors.get(q).getid());
+				System.out.print(graph.theVertices.get(j).getid()+ " | ");
+				for(int q = 0; q < graph.theVertices.get(j).neighbors.size(); q++)
+				{
+					System.out.print(graph.theVertices.get(j).neighbors.get(q).getid() + " ");
+				}//for
+				System.out.println();
 			}//for
-			System.out.println();
-		}//for
+		
+		
 		
 	}//printAdjList
 	
@@ -93,14 +51,27 @@ public class Graph {
 	public void printMatrix(Graph graph)  
 	{
 		boolean [][] matrix = new boolean [numOfVertices][numOfVertices];
+		
 		for (int i = 0; i < numOfVertices; i++)
 		{
 			for( int k= 0; k< numOfVertices; k++)
 				matrix[i][k] = false;
 		}
-		for (int h = 0; h < graph.theVertices.size() ; h++)
+		
+		
+		if(graph.theVertices.get(0).getid() == 0)
+		{
+			for (int h = 0; h < graph.theVertices.size() ; h++)
+				   for (int p = 0; p < graph.theVertices.get(h).getNeighbors().size(); p++)
+				      matrix[h][graph.theVertices.get(h).getNeighbors().get(p).getid()] = true;
+		}
+		else
+		{
+			for (int h = 0; h < graph.theVertices.size() ; h++)
 			   for (int p = 0; p < graph.theVertices.get(h).getNeighbors().size(); p++)
 			      matrix[h][graph.theVertices.get(h).getNeighbors().get(p).getid()-1] = true;
+		}
+		
 	
 		for (int i = 0; i < graph.numOfVertices; i++)
 		{
@@ -122,8 +93,9 @@ public class Graph {
 	{
 		if(v.getprocessed() == false)
 		{
-			System.out.println(v.getid());
 			v.setprocessed(true);
+			System.out.print(v.getid() + " ");
+			
 		}// if
 		
 		for (int n = 0; n < v.neighbors.size(); n++)
@@ -144,7 +116,7 @@ public class Graph {
 		while(!q.isEmpty())
 		{
 			cv = q.dequeue();
-			System.out.println(cv.getid());
+			System.out.print(cv.getid() + " ");
 			for(int n = 0; n < cv.neighbors.size(); n++)
 			{
 				if(cv.neighbors.get(n).getprocessed() == false)
@@ -160,7 +132,6 @@ public class Graph {
 	{
 		if(v.getprocessed() == true)
 		{
-			System.out.println(v.getid());
 			v.setprocessed(false);
 		}// if
 		
@@ -168,10 +139,16 @@ public class Graph {
 		{
 			if(v.neighbors.get(n).getprocessed() == true)
 			{
-				depthFT(v.neighbors.get(n));
+				reset(v.neighbors.get(n));
 			}//if
 		}//for
 	}//reset
+	
+	public void resetGraph(Graph graph)
+	{
+		graph.numOfVertices = 0;
+		graph.theVertices.clear();
+	}
 }//Graph
 
 
