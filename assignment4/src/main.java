@@ -198,9 +198,10 @@ public class main {
 			
 			tree.search(tree.root, itemsToFind[j]);
 			
-			totalComparisons += comparisons;
-			System.out.print(" -- " +comparisons);
-			System.out.println();
+			totalComparisons += tree.countComps();
+			System.out.print(" -- " );
+			System.out.println(tree.countComps());
+			tree.resetComps();
 		}
 		System.out.println();
 		System.out.println("The average number of comparisons " + totalComparisons / NUMOFSEARCHES);

@@ -67,7 +67,6 @@ public class BinarySearchTree {
 		if(root == null || root.key.compareToIgnoreCase(key) == 0)
 		{
 			BSTComparisons++;
-			countComps(BSTComparisons);
 			return root;
 		}
 			
@@ -88,12 +87,13 @@ public class BinarySearchTree {
 			
 	}
 	
-	public float countComps( float current)
+	public float countComps()
 	{
-		float counter = current;
-		
-		counter++;
-		
-		return counter;
+		return BSTComparisons;
+	}
+	
+	public void resetComps()
+	{
+		BSTComparisons = 0; 
 	}
 }
