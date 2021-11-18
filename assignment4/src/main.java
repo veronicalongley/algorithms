@@ -13,15 +13,16 @@ public class main {
 	public static void main(String[] args) 
 	{
 		String fileName = "graphs1.txt";
-		
-		String [] graph = new String[375];
+		ArrayList<String> commands = new ArrayList<>();
+		//String [] graph = new String[375];
 		int i =0;
 		try {
 		Scanner readFile = new Scanner (new File (fileName));
 		
 		while (readFile.hasNextLine()) 
 		   {
-			   	graph[i]= readFile.nextLine();
+				commands.add(readFile.nextLine());
+			   //	graph[i]= readFile.nextLine();
 			   //System.out.println(graph[i]);
 			   	i++;
 		   }//while
@@ -52,6 +53,12 @@ public class main {
 		System.out.println("Oops, something went wrong. ");
 		ex.printStackTrace();
 		}//catch
+		
+		
+		
+		
+		
+		
 		Graph firstGraph = new Graph();
 		Graph secondGraph = new Graph();
 		Graph thirdGraph = new Graph();
@@ -89,7 +96,7 @@ public class main {
 		int endOfNext = 0;
 		int empty = 0; 
 		
-		for (int k = 22; k < 58; k++)
+		for (int k = 22; k < 59; k++)
 		{
 			secondGraphCmd.add(graph[k]);
 		}
@@ -154,25 +161,25 @@ public class main {
 		BinarySearchTree tree = new BinarySearchTree();
 		for(int k = 0; k < NUMOFITEMS; k++)
 		{
-			System.out.print(magicItems[k] + ": ");
+			//System.out.print(magicItems[k] + ": ");
 			tree.insert(magicItems[k]);
-			System.out.println();
+			//System.out.println();
 		}//for
 		
 		System.out.println();
-		System.out.println("In-order Traversal:");
-		tree.inOrder();
-		System.out.println();
+		//System.out.println("In-order Traversal:");
+		//tree.inOrder();
+		//System.out.println();
 		
 		for(int j = 0; j < NUMOFITEMS; j++)
 		{
-			System.out.print(magicItems[j] + " -- ");
+			//System.out.print(magicItems[j] + " -- ");
 			
-			tree.search(tree.root, magicItems[j]);
+			//tree.search(tree.root, magicItems[j]);
 			
 			totalComparisons += comparisons;
-			System.out.print(" -- " +comparisons);
-			System.out.println();
+		//	System.out.print(" -- " +comparisons);
+		//	System.out.println();
 		}
 		System.out.println(totalComparisons / NUMOFITEMS);
 		

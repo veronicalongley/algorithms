@@ -6,18 +6,19 @@ public class Graph {
 	
 	public ArrayList<Vertex> theVertices;
 	 
-	boolean [][] m = new boolean [numOfVertices][numOfVertices];
+	
 	
 	public Graph()
 	{
 		theVertices = new ArrayList<>();
+		numOfVertices = 0;
+
 	}//Graph
 	
 	public void addVertex(int num)
 	{
 		Vertex newVertex = new Vertex(num);
 		theVertices.add(newVertex);
-		
 		numOfVertices++;
 	}//addVertex
 	
@@ -39,12 +40,8 @@ public class Graph {
 			else if (list.get(i).contains("vertex"))
 			{
 				int val = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf(" ") + 1 ));
+				//System.out.println("Adding Vertex");
 				addVertex(val);
-//				for (int d = 0; d < theVertices.size();d++) 
-//			      { 		      
-//			          System.out.print(theVertices.get(d).getid());
-//			          System.out.println();
-//			      } 
 			}//else if
 			
 			else if (list.get(i).contains("edge"))
@@ -52,24 +49,20 @@ public class Graph {
 				int start = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf("e") + 2, list.get(i).indexOf("-") -1 ));
 				int end = Integer.parseInt(list.get(i).substring(list.get(i).indexOf("-") + 2 ));
 				
+				//System.out.println("Adding edge" + start+ " -  " + end);
+				
 				if(theVertices.get(0).getid() == 0)
 				{
-//					System.out.println(start+ end);
-//					System.out.println(end);
 					theVertices.get(start).addEdge(theVertices.get(end));
 					theVertices.get(end).addEdge(theVertices.get(start));
-					m[start][end] = true;
-					m[end][start] = true;
 				}//if
 				
 				else
 				{
-//					System.out.println(start+ end);
-//					System.out.println(end);
+					//System.out.println("Adding edge to vertex " + theVertices.get(start -1 ).getid());
 					theVertices.get(start - 1 ).addEdge(theVertices.get(end - 1));
 					theVertices.get(end - 1 ).addEdge(theVertices.get(start - 1));
-					m[start][end] = true;
-					m[end][start] = true;
+
 				}//else
 				
 			}//else if
@@ -86,11 +79,12 @@ public class Graph {
 	{
 		for(int j = 0; j < graph.numOfVertices; j++)
 		{
-			System.out.println(graph.theVertices.get(j).getid()+ "| ");
+			System.out.print(graph.theVertices.get(j).getid()+ " | ");
 			for(int q = 0; q < graph.theVertices.get(j).neighbors.size(); q++)
 			{
-				System.out.print(graph.theVertices.get(j).neighbors.get(q));
+				System.out.print(graph.theVertices.get(j).neighbors.get(q).getid());
 			}//for
+			System.out.println();
 		}//for
 		
 	}//printAdjList
@@ -98,10 +92,29 @@ public class Graph {
 	
 	public void printMatrix(Graph graph)  
 	{
+		boolean [][] matrix = new boolean [numOfVertices][numOfVertices];
+		for (int i = 0; i < numOfVertices; i++)
+		{
+			for( int k= 0; k< numOfVertices; k++)
+				matrix[i][k] = false;
+		}
+		for (int h = 0; h < graph.theVertices.size() ; h++)
+			   for (int p = 0; p < graph.theVertices.get(h).getNeighbors().size(); p++)
+			      matrix[h][graph.theVertices.get(h).getNeighbors().get(p).getid()-1] = true;
 	
 		for (int i = 0; i < graph.numOfVertices; i++)
+		{
+			System.out.println( );
 		   for (int j = 0; j < graph.numOfVertices; j++)
-		      System.out.print(m[i][j] + " ");
+		   {
+			   if(matrix[i][j] == true)
+				   System.out.print(" 1 ");
+			   else
+				   System.out.print(" 0 ");
+		   }
+		}
+			
+			   
 		    
 	 }//printGraph
 	    

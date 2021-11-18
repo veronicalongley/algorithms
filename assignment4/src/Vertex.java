@@ -7,7 +7,7 @@ public class Vertex {
 	//private  Vertex next;
 	
 	//LinkedList<Vertex> neighbors = new LinkedList<Vertex>();
-	public ArrayList<Vertex> neighbors = new ArrayList<>();
+	public ArrayList<Vertex> neighbors;
 
 	public ArrayList<Vertex> getNeighbors()
 	{
@@ -23,7 +23,7 @@ public class Vertex {
 	{
 		id = 0;
 		processed = false;
-		neighbors = null;
+		neighbors = new ArrayList<Vertex>();
 		//next = null;
 	}//Vertex
 	
@@ -31,7 +31,7 @@ public class Vertex {
 	{
 		id = newid;
 		processed = false;
-		neighbors = null;
+		neighbors = new ArrayList<Vertex>();
 		//next = null;
 	}//Vertex
 	
@@ -62,8 +62,8 @@ public class Vertex {
 	
 	public void addEdge(Vertex destination) 
 	{
-		System.out.print("done");
-		neighbors.add(destination);
-		System.out.print("done");
+		//System.out.println("... destination is vertex " + destination.id);
+		this.neighbors.add(destination);
+		//System.out.println("added destination vertex " + destination.id + "from Vertex " + this.id);
 	}
 }//Vertex
