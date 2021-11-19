@@ -6,16 +6,6 @@ public class Vertex {
 	private int id;
 	private boolean processed; 
 	public ArrayList<Vertex> neighbors;
-
-	public ArrayList<Vertex> getNeighbors()
-	{
-		return neighbors;
-	}//getNeighbors
-	
-	public void setNeighbors(ArrayList<Vertex> newNeighbors)
-	{
-		neighbors = newNeighbors;
-	}//setNeighbors
 	
 	public Vertex()
 	{
@@ -30,6 +20,16 @@ public class Vertex {
 		processed = false;
 		neighbors = new ArrayList<Vertex>();
 	}//Vertex
+	
+	public ArrayList<Vertex> getNeighbors()
+	{
+		return neighbors;
+	}//getNeighbors
+	
+	public void setNeighbors(ArrayList<Vertex> newNeighbors)
+	{
+		neighbors = newNeighbors;
+	}//setNeighbors
 	
 	public boolean getprocessed()
 	{
