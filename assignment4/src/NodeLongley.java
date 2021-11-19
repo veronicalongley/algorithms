@@ -1,8 +1,8 @@
 
 public class NodeLongley
 {
-	//myData holds the char for each Node
-	//myNext references the next Node in the stack or queue
+	//myData holds the Vertex for each Node
+	//myNext references the next Node in the queue
 	private Vertex myData;
 	private NodeLongley myNext;
 

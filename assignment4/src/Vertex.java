@@ -1,30 +1,27 @@
-import java.util.LinkedList;
 import java.util.ArrayList;
 
 public class Vertex {
+	//Vertexes are made up of an id, a boolean is processed to 
+	//aid with traversals and a list of neighbors 
 	private int id;
 	private boolean processed; 
-	//private  Vertex next;
-	
-	//LinkedList<Vertex> neighbors = new LinkedList<Vertex>();
 	public ArrayList<Vertex> neighbors;
 
 	public ArrayList<Vertex> getNeighbors()
 	{
 		return neighbors;
-	}
+	}//getNeighbors
 	
 	public void setNeighbors(ArrayList<Vertex> newNeighbors)
 	{
 		neighbors = newNeighbors;
-	}
+	}//setNeighbors
 	
 	public Vertex()
 	{
 		id = 0;
 		processed = false;
 		neighbors = new ArrayList<Vertex>();
-		//next = null;
 	}//Vertex
 	
 	public Vertex(int newid)
@@ -32,10 +29,8 @@ public class Vertex {
 		id = newid;
 		processed = false;
 		neighbors = new ArrayList<Vertex>();
-		//next = null;
 	}//Vertex
 	
-
 	public boolean getprocessed()
 	{
 		return processed;
@@ -59,11 +54,11 @@ public class Vertex {
 		id = newid;
 	}//setid
 	
-	
+	//add vertex to other vertex's list of neighbors to create an edge 
 	public void addEdge(Vertex destination) 
 	{
 		//System.out.println("... destination is vertex " + destination.id);
 		this.neighbors.add(destination);
 		//System.out.println("added destination vertex " + destination.id + "from Vertex " + this.id);
-	}
+	}//add edge 
 }//Vertex

@@ -1,17 +1,17 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
-import java.math.*;
 import java.util.ArrayList;
 
-public class main {
+public class main 
+{
 	public static float totalComparisons;
 	public static Graph theGraph = new Graph();
 
 	public static void main(String[] args) 
 	{
+		//Read instructions .txt file
 		String fileName = "graphs1.txt";
 		ArrayList<String> commands = new ArrayList<>();
 		try {
@@ -49,56 +49,17 @@ public class main {
 		ex.printStackTrace();
 		}//catch	
 		
-		
+		//call makeGraph and send it the ArrayList of instructions from the .txt file
 		makeGraph(commands);
-		
-		for(int h = 0; h < 20; h++)
-		{
-		//	firstGraphCmd.add(graph[h]);
-		}//for
-		
-		
-		//firstGraph.makeGraph(firstGraphCmd);		
 
-//		
-//		System.out.println();
-//		System.out.println("Matrix Form: ");
-//		firstGraph.printMatrix(firstGraph);
-//		System.out.println();
-//		System.out.println("Adjacency List: ");
-//		firstGraph.printAdjList(firstGraph);
-//		
-//		firstGraph.depthFT(firstGraph.theVertices.get(0));
-//		firstGraph.reset(firstGraph.theVertices.get(0));
-//		firstGraph.breadthFT(firstGraph.theVertices.get(0));
-//		
-//		int next = 0;
-//		int endOfNext = 0;
-//		int empty = 0; 
-//		
-//		for (int k = 22; k < 59; k++)
-//		{
-//		//	secondGraphCmd.add(graph[k]);
-//		}
 		
-//		secondGraph.makeGraph(secondGraphCmd);
-//		
-//		System.out.println();
-//		System.out.println("Matrix Form: ");
-//		secondGraph.printMatrix(secondGraph);
-//		System.out.println();
-//		System.out.println("Adjacency List: ");
-//		secondGraph.printAdjList(secondGraph);
-		
-		
-		
-		
+		//For the Binary Search Tree
+		//Read MagicItems
 		String file2Name = ""; 
 		final int NUMOFITEMS = 666;
 		String [] magicItems = new String [NUMOFITEMS];
 		String theitem = null;
 		file2Name = "magicitems.txt";
-		float comparisons = 0;
 		
 		//input item names from file and store in array
 		try
@@ -138,6 +99,7 @@ public class main {
 			ex.printStackTrace();
 			}//catch
 		
+		//fill the Binary Search Tree
 		BinarySearchTree tree = new BinarySearchTree();
 		for(int k = 0; k < NUMOFITEMS; k++)
 		{
@@ -147,11 +109,13 @@ public class main {
 		}//for
 		
 		System.out.println();
+		//Traverse it in order to get an alphabetized list of magic items
 		System.out.println("In-order Traversal:");
 		tree.inOrder();
 		System.out.println();
 		System.out.println("Searches and Comparisons:");
 		
+		//read the file with 42 items to search for and store in a new array
 		final int NUMOFSEARCHES = 42; 
 		String file3Name = "magicitems-find-in-bst.txt";
 		String [] itemsToFind = new String [NUMOFSEARCHES];
@@ -192,6 +156,9 @@ public class main {
 			ex.printStackTrace();
 			}//catch
 		
+		//loop through list of items to search for
+		//search for each one
+		//print it out along with its path and number of comparisons needed to find it
 		for(int j = 0; j < NUMOFSEARCHES; j++)
 		{
 			System.out.print(itemsToFind[j] + " -- ");
@@ -202,28 +169,34 @@ public class main {
 			System.out.print(" -- " );
 			System.out.println(tree.countComps());
 			tree.resetComps();
-		}
+		}//for
 		System.out.println();
+		//Print the average number of comparisons for a Binary Search Tree
 		System.out.println("The average number of comparisons " + totalComparisons / NUMOFSEARCHES);
 		
-	  }
+	  }//main
 	
 	public static void makeGraph(ArrayList<String> list)
 	{
+		//loop through each line of the array
 		for (int i = 0; i<list.size(); i++)
 		{
+			//if line contains "undirected" we know a graph is being announced, so we can 
+			//print out that line as it acts as a title for the graph
 			if(list.get(i).contains("undirected"))
 			{
 				System.out.println(list.get(i));
 			}//if
 			
+			//if line contains "new graph" we know we want to make a new graph and not add to the last
 			else if(list.get(i).contains("new graph"))
 			{
-				//System.out.println("done");
 				Graph theGraph = new Graph();
-				//System.out.println(theGraph.getnumOfVertices());
 			}
 			
+			//if line contains "vertex" we want to add a new vertex to the graph
+			//We locate the last space in the line and take the number from the string
+			//and convert it to an integer, so it can be added to the graph of integers
 			else if (list.get(i).contains("vertex"))
 			{
 				int val = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf(" ") + 1 ));
@@ -231,6 +204,9 @@ public class main {
 				theGraph.addVertex(val);
 			}//else if
 			
+			//if line contains edge we are linking two vertices
+			//start finds the last index of the letter e and the index of "-" and converts the number between it to an integer
+			//end takes the number after the "-" and converts it to an integer 
 			else if (list.get(i).contains("edge"))
 			{
 				int start = Integer.parseInt(list.get(i).substring(list.get(i).lastIndexOf("e") + 2, list.get(i).indexOf("-") -1 ));
@@ -254,6 +230,8 @@ public class main {
 				
 			}//else if
 			
+			//if the line is empty we know the graph is done being described and we can go about 
+			//making and printing the matrix and the adjacency list as well as doing two traversals 
 			else if (list.get(i).equals("") )
 			{
 				System.out.println();
@@ -279,7 +257,7 @@ public class main {
 				System.out.println();
 				System.out.println();
 				
-			}
+			}//elseif
 			
 			else
 			{
@@ -288,4 +266,4 @@ public class main {
 		}//for
 	}//makeGraph
 	
-}
+}//main

@@ -11,7 +11,7 @@ public class Queue {
 		return(head == null);
 	}//isEmpty
 	
-	// enqueue method adds char c to the end of the line 
+	// enqueue method adds Vertex c to the end of the line 
 	public void enqueue (Vertex c) 
 	{
 		NodeLongley oldtail = tail;
@@ -26,7 +26,7 @@ public class Queue {
 			oldtail.setNext(tail);
 	}//enqueue
 	
-	// dequeue method removes the char at the front of the line 
+	// dequeue method removes the Vertex at the front of the line 
 	// to be used for comparison 
 	public Vertex dequeue()
 	{

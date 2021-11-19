@@ -1,12 +1,8 @@
-import java.io.*;
 import java.util.ArrayList;
 public class Graph {
-	
+
 	private int numOfVertices;
-	
 	public ArrayList<Vertex> theVertices;
-	 
-	//Graph theGraph;
 	
 	public Graph()
 	{
@@ -26,24 +22,18 @@ public class Graph {
 	{
 		return numOfVertices;
 	}//getnumOfVertices
-	
-	
 
-	
 	public void printAdjList(Graph graph)
 	{
-		
-			for(int j = 0; j < graph.numOfVertices; j++)
+		for(int j = 0; j < graph.numOfVertices; j++)
+		{
+			System.out.print(graph.theVertices.get(j).getid()+ " | ");
+			for(int q = 0; q < graph.theVertices.get(j).neighbors.size(); q++)
 			{
-				System.out.print(graph.theVertices.get(j).getid()+ " | ");
-				for(int q = 0; q < graph.theVertices.get(j).neighbors.size(); q++)
-				{
-					System.out.print(graph.theVertices.get(j).neighbors.get(q).getid() + " ");
-				}//for
-				System.out.println();
+				System.out.print(graph.theVertices.get(j).neighbors.get(q).getid() + " ");
 			}//for
-		
-		
+			System.out.println();
+		}//for
 		
 	}//printAdjList
 	
@@ -52,27 +42,29 @@ public class Graph {
 	{
 		boolean [][] matrix = new boolean [numOfVertices][numOfVertices];
 		
+		//initialize matrix to false
 		for (int i = 0; i < numOfVertices; i++)
 		{
 			for( int k= 0; k< numOfVertices; k++)
 				matrix[i][k] = false;
-		}
+		}//for
 		
-		
+		//change from false to true if in list of neighbors
+		//if vertex id's start a 0 we do not have to adjust for the matix positions
 		if(graph.theVertices.get(0).getid() == 0)
 		{
 			for (int h = 0; h < graph.theVertices.size() ; h++)
 				   for (int p = 0; p < graph.theVertices.get(h).getNeighbors().size(); p++)
 				      matrix[h][graph.theVertices.get(h).getNeighbors().get(p).getid()] = true;
-		}
+		}//if
 		else
 		{
 			for (int h = 0; h < graph.theVertices.size() ; h++)
 			   for (int p = 0; p < graph.theVertices.get(h).getNeighbors().size(); p++)
 			      matrix[h][graph.theVertices.get(h).getNeighbors().get(p).getid()-1] = true;
-		}
+		}//else
 		
-	
+		//print out 1 for true and 0 for false 
 		for (int i = 0; i < graph.numOfVertices; i++)
 		{
 			System.out.println( );
@@ -82,13 +74,12 @@ public class Graph {
 				   System.out.print(" 1 ");
 			   else
 				   System.out.print(" 0 ");
-		   }
-		}
-			
-			   
+		   }//for
+		}//for
 		    
 	 }//printGraph
-	    
+	  
+	//depth first traversal
 	public void depthFT(Vertex v)
 	{
 		if(v.getprocessed() == false)
@@ -97,16 +88,17 @@ public class Graph {
 			System.out.print(v.getid() + " ");
 			
 		}// if
-		
 		for (int n = 0; n < v.neighbors.size(); n++)
 		{
 			if(v.neighbors.get(n).getprocessed() == false)
 			{
+				//recursion
 				depthFT(v.neighbors.get(n));
 			}//if
 		}//for
 	}//DepthFT
 	
+	//breadth first traversal
 	public void breadthFT(Vertex v)
 	{
 		Queue q = new Queue();
@@ -128,6 +120,8 @@ public class Graph {
 		}//while
 	}//breadthFT
 	
+	//reset processed to be false again after one traversal has been done
+	//so second traversal and start fresh
 	public void reset(Vertex v)
 	{
 		if(v.getprocessed() == true)
@@ -144,11 +138,12 @@ public class Graph {
 		}//for
 	}//reset
 	
+	//reset number of vertices and the vertices when we are moving to next graph
 	public void resetGraph(Graph graph)
 	{
 		graph.numOfVertices = 0;
 		graph.theVertices.clear();
-	}
+	}//resetGraph
 }//Graph
 
 
