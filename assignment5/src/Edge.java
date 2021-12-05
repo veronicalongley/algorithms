@@ -53,4 +53,9 @@ public class Edge {
 	{
 		return to.getDist();
 	}//getFromDistance
+	
+	public void detailsE()
+	{
+		System.out.println(to.getid() + " - " + from.getid() + " " + weight);
+	}//detailsE
 }

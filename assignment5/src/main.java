@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
@@ -15,8 +14,8 @@ public class main {
 	public static void main(String[] args) 
 	{
 		//Read instructions .txt file
-		String fileName = "graphs1.txt";
-		ArrayList<String> commands = new ArrayList<>();
+		//make graphs line by line as opposed to storing file
+		String fileName = "graphs2.txt";
 		try {
 		Scanner readFile = new Scanner (new File (fileName));
 		String textLine = "";
@@ -38,7 +37,14 @@ public class main {
 				else if (textLine.contains("edge"))
 				{
 					edges = textLine.split("\\s+");
-				}
+					System.out.println(edges[5]);
+					newGraph.addEdge(Integer.parseInt(edges[2]), Integer.parseInt(edges[4]), Integer.parseInt(edges[5]));
+				}//if
+			}
+			else if (textLine.trim().isEmpty())
+			{
+				newGraph.detailsG();
+				//SSSP nextSssp = new SSSP(newGraph);
 			}
 				
 		   }//while

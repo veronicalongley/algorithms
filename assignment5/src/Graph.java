@@ -19,6 +19,7 @@ public class Graph {
 		Vertex newVertex = new Vertex(num);
 		theVertices.add(newVertex);
 		numOfVertices++;
+		System.out.println("Added " + num);
 	}//addVertex
 	
 	public void addEdge(int sourceID, int destID, int weight)
@@ -51,6 +52,14 @@ public class Graph {
 		graph.theVertices.clear();
 		graph.theEdges.clear();
 	}//resetGraph
+	
+	public void detailsG()
+	{
+		for (int i = 0; i < theEdges.size();  i++)
+		{
+			theEdges.get(i).detailsE();
+		}//for
+	}
 }//Graph
 
 
