@@ -26,6 +26,11 @@ public class Vertex {
 		prev = newPrev;
 	}//setPrev
 	
+	public Vertex getPrev()
+	{
+		return prev;
+	}//getPrev
+	
 	public void setDist(int newDist)
 	{
 		dist = newDist;

@@ -37,6 +37,37 @@ public class SSSP {
 		
 		printPath(theVertices);
 				
-		
+	}//algorithm
+	
+	public void relax(Vertex to, Vertex from, int weight)
+	{
+		if(from.getDist() > (to.getDist()+ weight))
+		{
+			from.setDist(to.getDist()+weight);
+			from.setPrev(to);
+		}//if
+	}//relax
+	
+	
+	public void printPath(ArrayList<Vertex> vertices)
+	{
+		Stack<Integer> path = new Stack<>();
+		System.out.println("Shortest Path: ");
+		for(int i = 1; i < vertices.size(); i++)
+		{
+			Vertex vertex = vertices.get(i);
+			System.out.print("1 --> " + vertices.get(i).getid() + " cost is "+ vertices.get(i).getDist() + "; path is ");
+			while(vertex.getPrev() != null)
+			{
+				vertex = vertex.getPrev();
+				path.push(vertex.getid());
+			}//while
+			while(!path.isEmpty() )
+			{
+				int id = path.pop();
+				System.out.print(id + "-->");
+			}//while
+			System.out.print(vertices.get(i).getid() + "\n");
+		}//for
 	}
 }

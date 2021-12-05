@@ -44,7 +44,7 @@ public class main {
 			else if (textLine.trim().isEmpty())
 			{
 				newGraph.detailsG();
-				//SSSP nextSssp = new SSSP(newGraph);
+				SSSP nextSssp = new SSSP(newGraph);
 			}
 				
 		   }//while
