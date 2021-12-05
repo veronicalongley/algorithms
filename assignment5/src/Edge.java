@@ -6,10 +6,10 @@ public class Edge {
 	private int weight;
 	
 	public Edge()
-	{
-		weight = 0; 
+	{ 
 		from = new Vertex();
 		to = new Vertex(); 
+		weight = 0;
 	}//Edge
 	
 	public Edge(Vertex newFrom, Vertex newTo, int newWeight)
@@ -56,6 +56,6 @@ public class Edge {
 	
 	public void detailsE()
 	{
-		System.out.println(to.getid() + " - " + from.getid() + " " + weight);
+		System.out.println(from.getid() + " - " + to.getid() + " " + weight);
 	}//detailsE
 }

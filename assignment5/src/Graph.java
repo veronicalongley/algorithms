@@ -19,13 +19,13 @@ public class Graph {
 		Vertex newVertex = new Vertex(num);
 		theVertices.add(newVertex);
 		numOfVertices++;
-		System.out.println("Added " + num);
+		//System.out.println("Added " + num);
 	}//addVertex
 	
 	public void addEdge(int sourceID, int destID, int weight)
 	{
-		Edge newEdge = new Edge(theVertices.get(sourceID), theVertices.get(destID), weight);
-		System.out.println("Added " + sourceID + " - " + destID + " " + weight);
+		Edge newEdge = new Edge(theVertices.get(sourceID-1 ), theVertices.get(destID-1), weight);
+		//System.out.println("Added " + sourceID + " - " + destID + " " + weight);
 		theEdges.add(newEdge);
 	}//addEdge
 	

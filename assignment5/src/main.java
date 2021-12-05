@@ -37,7 +37,7 @@ public class main {
 				else if (textLine.contains("edge"))
 				{
 					edges = textLine.split("\\s+");
-					System.out.println(edges[5]);
+					//System.out.println(edges[5]);
 					newGraph.addEdge(Integer.parseInt(edges[2]), Integer.parseInt(edges[4]), Integer.parseInt(edges[5]));
 				}//if
 			}
