@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Stack;
-public class SSSP {
+public class SSSP 
+{
 
 
 	public SSSP(Graph graph)
 	{
 		algorithm(graph);
-	}
+	}//SSSP
 	
 	public void algorithm(Graph graph)
 	{
@@ -17,23 +18,23 @@ public class SSSP {
 		{
 			theVertices.get(i).setDist(10000);
 			theVertices.get(i).setPrev(null);
-		}
+		}//for
 		theVertices.get(start).setDist(0);
 		for(int j = 1; j<theVertices.size(); j++)
 		{
 			for(int k = 0; k<theEdges.size(); k++)
 			{
 				relax(theEdges.get(k).getFrom(), theEdges.get(k).getTo(), theEdges.get(k).getWeight());
-			}
-		}
+			}//for
+		}//for
 		
 		for(int i = 0; i < theEdges.size(); i++)
 		{
 			if(theEdges.get(i).getTo().getDist() > (theEdges.get(i).getFrom().getDist() + theEdges.get(i).getWeight()))
 			{
 				System.out.println("Negative Cycle");
-			}
-		}
+			}//if
+		}//for
 		
 		printPath(theVertices);
 				
@@ -69,5 +70,5 @@ public class SSSP {
 			}//while
 			System.out.print(vertices.get(i).getid() + "\n");
 		}//for
-	}
-}
+	}//printPath
+}//SSSP

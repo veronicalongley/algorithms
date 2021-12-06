@@ -59,7 +59,7 @@ public class Graph {
 		{
 			theEdges.get(i).detailsE();
 		}//for
-	}
+	}//detailsG
 }//Graph
 
 

@@ -25,6 +25,7 @@ public class main {
 		String[] vertices;
         String[] edges;
         int graph = 0; 
+        System.out.println("Directed Weighted Graphs: ");
 		while (readFile.hasNextLine()) 
 		   {
 			textLine = readFile.nextLine();
@@ -32,7 +33,7 @@ public class main {
 			{
 				newGraph = new Graph();
 				graph++;
-			}
+			}//if
 				
 			else if (!(textLine.equals("")) && (textLine.charAt(0) != '-'))
 			{
@@ -47,16 +48,14 @@ public class main {
 					//System.out.println(edges[5]);
 					newGraph.addEdge(Integer.parseInt(edges[2]), Integer.parseInt(edges[4]), Integer.parseInt(edges[5]));
 				}//if
-			}
-			else if (textLine.trim().isEmpty() )
+			}//else if
+			else if (textLine.equals("") )
 			{
 				System.out.println("Graph # "+ graph + ": ");
 				newGraph.detailsG();
 				SSSP nextSssp = new SSSP(newGraph);
 				System.out.println();
-				
-			}
-				
+			}//else if
 		   }//while
 		}//try
 		
@@ -87,13 +86,38 @@ public class main {
 		
 	try 
 	{
+		System.out.println("Spice Heist: ");
 		Scanner readFile = new Scanner (new File (file2Name));
 		String text = "";
 		while(readFile.hasNextLine())
 		{
 			text = readFile.nextLine();
-		}
-	}
+		}//while
+	}//try
+	catch(FileNotFoundException ex)
+	{
+	System.out.println("Failed to find file: "+ fileName);
+	}//catch
+	catch(InputMismatchException ex)
+		{
+		System.out.println("Type mismatch for the number I tried to read. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NumberFormatException ex)
+		{
+		System.out.println("Failed to convert String text into an integer value. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NullPointerException ex)
+		{
+		System.out.println("Null pointer exception. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(Exception ex)
+		{
+		System.out.println("Oops, something went wrong. ");
+		ex.printStackTrace();
+		}//catch
 	
 	}//main
 	
