@@ -23,13 +23,13 @@ public class SSSP {
 		{
 			for(int k = 0; k<theEdges.size(); k++)
 			{
-				relax(theEdges.get(j).getTo(), theEdges.get(j).getFrom(), theEdges.get(j).getWeight());
+				relax(theEdges.get(k).getFrom(), theEdges.get(k).getTo(), theEdges.get(k).getWeight());
 			}
 		}
 		
 		for(int i = 0; i < theEdges.size(); i++)
 		{
-			if(theEdges.get(i).getFrom().getDist() > (theEdges.get(i).getTo().getDist() + theEdges.get(i).getWeight()))
+			if(theEdges.get(i).getTo().getDist() > (theEdges.get(i).getFrom().getDist() + theEdges.get(i).getWeight()))
 			{
 				System.out.println("Negative Cycle");
 			}
@@ -39,12 +39,12 @@ public class SSSP {
 				
 	}//algorithm
 	
-	public void relax(Vertex to, Vertex from, int weight)
+	public void relax(Vertex from, Vertex to, int weight)
 	{
-		if(from.getDist() > (to.getDist()+ weight))
+		if(to.getDist() > (from.getDist()+ weight))
 		{
-			from.setDist(to.getDist()+weight);
-			from.setPrev(to);
+			to.setDist(from.getDist()+weight);
+			to.setPrev(from);
 		}//if
 	}//relax
 	
@@ -65,7 +65,7 @@ public class SSSP {
 			while(!path.isEmpty() )
 			{
 				int id = path.pop();
-				System.out.print(id + "-->");
+				System.out.print(id + " --> ");
 			}//while
 			System.out.print(vertices.get(i).getid() + "\n");
 		}//for

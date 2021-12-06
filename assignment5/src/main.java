@@ -16,17 +16,24 @@ public class main {
 		//Read instructions .txt file
 		//make graphs line by line as opposed to storing file
 		String fileName = "graphs2.txt";
-		try {
+		String file2Name = "spice.txt";
+		try 
+		{
 		Scanner readFile = new Scanner (new File (fileName));
 		String textLine = "";
 		Graph newGraph = new Graph();
 		String[] vertices;
         String[] edges;
+        int graph = 0; 
 		while (readFile.hasNextLine()) 
 		   {
 			textLine = readFile.nextLine();
 			if (textLine.equals("new graph"))
+			{
 				newGraph = new Graph();
+				graph++;
+			}
+				
 			else if (!(textLine.equals("")) && (textLine.charAt(0) != '-'))
 			{
 				if(textLine.contains("vertex"))
@@ -41,10 +48,13 @@ public class main {
 					newGraph.addEdge(Integer.parseInt(edges[2]), Integer.parseInt(edges[4]), Integer.parseInt(edges[5]));
 				}//if
 			}
-			else if (textLine.trim().isEmpty())
+			else if (textLine.trim().isEmpty() )
 			{
+				System.out.println("Graph # "+ graph + ": ");
 				newGraph.detailsG();
 				SSSP nextSssp = new SSSP(newGraph);
+				System.out.println();
+				
 			}
 				
 		   }//while
@@ -75,6 +85,16 @@ public class main {
 		ex.printStackTrace();
 		}//catch
 		
+	try 
+	{
+		Scanner readFile = new Scanner (new File (file2Name));
+		String text = "";
+		while(readFile.hasNextLine())
+		{
+			text = readFile.nextLine();
+		}
+	}
+	
 	}//main
 	
 }//main
