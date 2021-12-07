@@ -92,7 +92,12 @@ public class main {
 		String spice [];
 		String knapsack [];
 		int sackNum = 0;
-		Knapsack[] sacks = new Knapsack[50];
+		double difference;
+		double amount;
+		double quatloos = 0;
+		int counter = 0;
+		String contains = "";
+		Knapsack[] sacks = new Knapsack[5];
 		ListOfSpices newSpice = new ListOfSpices();
 		while(readFile.hasNextLine())
 		{
@@ -114,9 +119,49 @@ public class main {
 					sacks[sackNum]= new Knapsack(Integer.parseInt(knapsack[3]));
 					//System.out.println(knapsack[3]);
 					sackNum++;
-				}//elseif
+				}//elseIf
+			}//if
+			
+		}//while
+		
+		newSpice.spiceSort();
+		Spice curr = newSpice.getHead();
+		
+		while(counter < sacks.length && sacks[counter] != null)
+		{
+			//if sack is not null and not full
+			if(curr != null && sacks[counter].getCurrentQuant() != sacks[counter].getCapacity())
+			{
+				if (sacks[counter].getCurrentQuant() + curr.getQuant() < sacks[counter].getCapacity())
+				{
+					sacks[counter].setCurrentQuant(curr.getQuant());
+					contains = contains + (", " + (curr.getQuant()* 1.0) + " scoop(s) of " + curr.getName());
+					quatloos = quatloos + (curr.getQuant() * curr.getPerUnitValue());
+					curr = curr.getNext();
+				}//if
+				else
+				{
+					difference = (sacks[counter].getCapacity() - sacks[counter].getCurrentQuant());
+					amount = difference / curr.getQuant();
+					sacks[counter].setCurrentQuant(amount * curr.getQuant());
+					sacks[counter].setCurrentVal(amount * curr.getPerUnitValue());
+					contains = contains +  (", " + amount * curr.getQuant() + " scoop(s) of " + curr.getName() );
+					quatloos = quatloos + ((amount * curr.getQuant())* curr.getPerUnitValue());
+					curr = curr.getNext();
+				}//else
+			}//if
+			
+			else
+			{
+				System.out.println("Knapsack of capacity " + sacks[counter].getCapacity() + " is worth "
+						+ quatloos + " quatloos and contains" + contains + ". ");
+				counter ++;
+				curr = newSpice.getHead();
+				quatloos = 0;
+				contains = "";
 			}
 		}//while
+		
 	}//try
 	catch(FileNotFoundException ex)
 	{

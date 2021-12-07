@@ -29,7 +29,7 @@ public class Spice {
 	
 	public double getPerUnitValue()
 	{
-		return perUnitValue;
+		return perUnitValue/quant;
 	}//getUnitValue
 	
 	public int getQuant()
