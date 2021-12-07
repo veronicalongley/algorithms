@@ -89,9 +89,33 @@ public class main {
 		System.out.println("Spice Heist: ");
 		Scanner readFile = new Scanner (new File (file2Name));
 		String text = "";
+		String spice [];
+		String knapsack [];
+		int sackNum = 0;
+		Knapsack[] sacks = new Knapsack[50];
+		ListOfSpices newSpice = new ListOfSpices();
 		while(readFile.hasNextLine())
 		{
 			text = readFile.nextLine();
+			if( text.equals("") ||text.charAt(0)!= '-' )
+			{
+				if(text.contains("spice"))
+				{
+					text = text.replace(';', ' ');
+					spice = text.split("\\s+");
+					//System.out.println(spice[3]+ " " + spice[6]+ " " + spice[9]);
+					newSpice.add(spice[3], Double.parseDouble(spice[6]), Integer.parseInt(spice[9]));
+					
+				}//if
+				else if(text.contains("knapsack"))
+				{
+					text = text.replace(';', ' ');
+					knapsack = text.split("\\s+");
+					sacks[sackNum]= new Knapsack(Integer.parseInt(knapsack[3]));
+					//System.out.println(knapsack[3]);
+					sackNum++;
+				}//elseif
+			}
 		}//while
 	}//try
 	catch(FileNotFoundException ex)

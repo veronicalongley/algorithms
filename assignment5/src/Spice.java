@@ -2,7 +2,7 @@
 public class Spice {
 
 	private String name;
-	private int perUnitValue;
+	private double perUnitValue;
 	private int quant;
 	private Spice next;
 	
@@ -14,7 +14,7 @@ public class Spice {
 		next = null;
 	}//Spice
 	
-	public Spice(String newName, int newPerUnitValue, int newQuant)
+	public Spice(String newName, double newPerUnitValue, int newQuant)
 	{
 		name = newName;
 		perUnitValue = newPerUnitValue;
@@ -27,7 +27,7 @@ public class Spice {
 		next = newNext;
 	}//setNext
 	
-	public int getPerUnitValue()
+	public double getPerUnitValue()
 	{
 		return perUnitValue;
 	}//getUnitValue
