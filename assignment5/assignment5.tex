@@ -1,0 +1,761 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{xcolor}
+ \geometry{
+ left=20mm,
+ top=20mm,
+ }
+\title{\textbf{Algorithms Assignment 5}}
+\author{Veronica Longley }
+\date{December 10, 2021}
+\definecolor{codeblue}{rgb}{0,0,255}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\lstdefinestyle{mystyle}{   
+    commentstyle=\color{codeblue},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple}
+    }
+\lstset{style=mystyle}
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 435 - Fall 2021 - Veronica Longley} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Assignment Five    	    \\ % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+\begin{document}
+
+\lstset{numbers= left}
+\lstset{language=Java}
+\huge
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+
+\maketitle{}
+
+
+\pagebreak
+\large
+\textbf{Our Goal:}
+In this assignment we will read a given file and create directed, weighted graphs based on the listed instructions. We will then find the Single Source Shortest Path (SSSP) from the first vertex to the other vertices. Next we will conduct a spice heist where we will attempt to fill knapsacks of various capacities with the most valuable spices so we are getting the most quatloos possible out of our heist.  
+
+\small
+\section{Vertex Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class Vertex {
+	//vertices are labelled with an id
+	//dist and prev aid with SSSP
+	private int id;
+	private int dist;
+	private Vertex prev;
+
+	public Vertex()
+	{
+		id = 0;
+		prev = null;
+		dist = -1;
+	}//Vertex
+	
+	public Vertex(int newid)
+	{
+		id = newid;
+	}//Vertex
+	
+	public void setPrev(Vertex newPrev)
+	{
+		prev = newPrev;
+	}//setPrev
+	
+	public Vertex getPrev()
+	{
+		return prev;
+	}//getPrev
+	
+	public void setDist(int newDist)
+	{
+		dist = newDist;
+	}//setDist
+	
+	//getter for id 
+	public int getid()
+	{
+		return id;
+	}//getid
+	
+	public int getDist()
+	{
+		return dist;
+	}//getDist
+
+}//Vertex
+\end{lstlisting}
+\large
+First we must look at the vertex class. The vertices are what make up the graph and allow edges to be formed. Vertices are labelled with an integer id. The integer dist and Vertex prev are used in later classes to find the SSSP. This class is quite simple; we initialize and write getters and setters. 
+
+\small
+\section{Edge Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+
+public class Edge {
+
+	public Vertex from;
+	public Vertex to;
+	private int weight;
+	
+	public Edge()
+	{ 
+		from = new Vertex();
+		to = new Vertex(); 
+		weight = 0;
+	}//Edge
+	
+	public Edge(Vertex newFrom, Vertex newTo, int newWeight)
+	{
+		from = newFrom;
+		to = newTo;
+		weight = newWeight; 
+	}//Edge
+	
+	public int getToID()
+	{
+		return to.getid();
+	}//getToID
+	
+	public int getFromID()
+	{
+		return from.getid();
+	}//getFromID
+	
+	public Vertex getTo()
+	{
+		return to;
+	}//getTo
+	
+	public Vertex getFrom()
+	{
+		return from;
+	}//getFrom
+	
+	public int getWeight()
+	{
+		return weight; 
+	}//get weight
+	
+	public int getFromDist()
+	{
+		return from.getDist();
+	}//getFromDistance
+	
+	public int getToDistance()
+	{
+		return to.getDist();
+	}//getFromDistance
+	
+	public void detailsE()
+	{
+		System.out.println(from.getid() + " - " + to.getid() + " " + weight);
+	}//detailsE
+}
+\end{lstlisting}
+\large
+The edge class works similarly to the vertex class. An edge is made up of two vertices, from and to, and a weight. The weight indicates the 'cost' to travel that edge. When finding the SSSP we want the smallest 'cost' possible, and we need to make sure we are traveling the correct direction, so this class will take care of that. As before, we initialize, provide getters and setters and the last method (line 57) which will print details about the edge. We will use this to print a summary of the graph. 
+
+\small
+\section{Graph Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+
+import java.util.ArrayList;
+public class Graph {
+
+	private int numOfVertices;
+	public ArrayList<Vertex> theVertices;
+	public ArrayList<Edge> theEdges;
+	
+	public Graph()
+	{
+		theVertices = new ArrayList<>();
+		theEdges = new ArrayList<>();
+		numOfVertices = 0;
+
+	}//Graph
+	
+	public void addVertex(int num)
+	{
+		Vertex newVertex = new Vertex(num);
+		theVertices.add(newVertex);
+		numOfVertices++;
+		//System.out.println("Added " + num);
+	}//addVertex
+	
+	public void addEdge(int sourceID, int destID, int weight)
+	{
+		Edge newEdge = new Edge(theVertices.get(sourceID-1 ),
+		theVertices.get(destID-1), weight);
+		//System.out.println("Added " + sourceID + " - " + destID + " " 
+		+ weight);
+		theEdges.add(newEdge);
+	}//addEdge
+	
+	public ArrayList<Vertex> getVertices()
+	{
+		return theVertices;
+	}//getVertices
+	
+	public ArrayList<Edge> getEdges()
+	{
+		return theEdges;
+	}//getEdges
+	
+	public int getnumOfVertices()
+	{
+		return numOfVertices;
+	}//getnumOfVertices
+	
+	public void detailsG()
+	{
+		for (int i = 0; i < theEdges.size();  i++)
+		{
+			theEdges.get(i).detailsE();
+		}//for
+	}//detailsG
+}//Graph
+
+\end{lstlisting}
+\large
+The graph class contains two array lists: one for the graph's vertices and one for the graph's edges. We also have a counter for the number of vertices, but that is not needed for this specific implementation. After initializing all of these, we have an addVertex() method (Line 17) where we create a new vertex, add it to the array list of vertices, and increment the number of vertices. Similarly for add edge, we create a new edge (adjusting for zero based indices) and add it to the array list of edges. We then have getters for both array lists and the vertices counter (line 34 - 47). Lastly we have a method that will call the previously mentioned detailsE() from the Edge class for each of the graph's edges so we may print a summary. 
+
+\small
+\section{SSSP Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+import java.util.ArrayList;
+import java.util.Stack;
+public class SSSP 
+{
+	public SSSP(Graph graph)
+	{
+		algorithm(graph);
+	}//SSSP
+	
+	public void algorithm(Graph graph)
+	{
+		int start = 0; 
+		ArrayList<Vertex> theVertices = graph.getVertices();
+		ArrayList<Edge> theEdges = graph.getEdges();
+		
+		//initialize 
+		for(int i = 0; i <  theVertices.size(); i++)
+		{
+			theVertices.get(i).setDist(10000);
+			theVertices.get(i).setPrev(null);
+		}//for
+		
+		theVertices.get(start).setDist(0);
+		
+		//relax 
+		for(int j = 1; j<theVertices.size(); j++)
+		{
+			for(int k = 0; k<theEdges.size(); k++)
+			{
+				relax(theEdges.get(k).getFrom(), 
+				theEdges.get(k).getTo(),theEdges.get(k).getWeight());
+			}//for
+		}//for
+		
+		//check for negative cycle
+		for(int i = 0; i < theEdges.size(); i++)
+		{
+			if(theEdges.get(i).getTo().getDist() >
+			(theEdges.get(i).getFrom().getDist() +
+			theEdges.get(i).getWeight()))
+			{
+				System.out.println("Negative Cycle");
+			}//if
+		}//for
+		
+		printPath(theVertices);
+				
+	}//algorithm
+	
+	public void relax(Vertex from, Vertex to, int weight)
+	{
+		if(to.getDist() > (from.getDist()+ weight))
+		{
+			to.setDist(from.getDist()+weight);
+			to.setPrev(from);
+		}//if
+	}//relax
+
+	public void printPath(ArrayList<Vertex> vertices)
+	{
+		Stack<Integer> path = new Stack<>();
+		System.out.println("Shortest Path: ");
+		for(int i = 1; i < vertices.size(); i++)
+		{
+			Vertex vertex = vertices.get(i);
+			System.out.print("1 --> " + vertices.get(i).getid() + 
+			" cost is "+ vertices.get(i).getDist() + "; path is ");
+			while(vertex.getPrev() != null)
+			{
+				vertex = vertex.getPrev();
+				path.push(vertex.getid());
+			}//while
+			while(!path.isEmpty() )
+			{
+				int id = path.pop();
+				System.out.print(id + " --> ");
+			}//while
+			System.out.print(vertices.get(i).getid() + "\n");
+		}//for
+	}//printPath
+}//SSSP
+
+\end{lstlisting}
+\large
+The SSSP class is called in main to determine the path from Vertex 1 to every other vertex resulting in the lowest 'cost'. First we create two new array lists and use the getters to copy the vertices and edges of the graph we are looking at. We start by initializing dist to 10,000('infinite'). This does not need to be specific, but it needs to be a rather large number so when we check the first path it is in fact less cost wise than 10,000 and dist gets updated to that. The vertex that we are using as our 'source', the first vertex, gets set to have a distance of zero so we are starting our paths out with nothing and accumulating 'costs' as we go. We then call the relax function on each of the edges. Relax checks if the destination vertex distance is greater than the source vertex distance plus the weight of the edge between them. If it is we have found a shorter path and we can set the destination distance to be the source vertex distance plus the weight of the edge. Once this has been completed for each edge, we check if the graph has a negative cycle. A negative cycle occurs when each time your path goes through a loop in the graph the cost gets lower and lower. In this case, the SSSP is never found because the algorithm wants to continue to get the cost to be lower and never stops the negative cycle. Lastly, we will call the print path method for all of the vertices. PrintPath() (line 59) works by going through all of the vertices except the first and printing the SSSP from Vertex 1 to that vertex. We first push all of the prev Verticies onto a stack to reverse the order, then we pop them off one by one and print them out to show the SSSP from Vertex 1 to each other vertex. 
+
+\small
+\section{...In Main Method}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class main {
+
+	public static void main(String[] args) 
+	{
+
+		String fileName = "graphs2.txt";
+		try 
+		{
+		Scanner readFile = new Scanner (new File (fileName));
+		String textLine = "";
+		Graph newGraph = new Graph();
+		String[] vertices;
+        String[] edges;
+        int graph = 0; 
+        System.out.println("Directed Weighted Graphs: ");
+		//Read instructions .txt file
+		//make graphs line by line as opposed to storing file
+		while (readFile.hasNextLine()) 
+		   {
+			textLine = readFile.nextLine();
+			if (textLine.equals("new graph"))
+			{
+				newGraph = new Graph();
+				graph++;
+			}//if
+				
+			//if the line is not empty and is not a comment 
+			else if (!(textLine.equals(""))&&(textLine.charAt(0)!='-'))
+			{
+				//if it contains 'vertex' we are adding a vertex
+				if(textLine.contains("vertex"))
+				{
+					vertices = textLine.split("add vertex ");
+					newGraph.addVertex(Integer.parseInt
+					(vertices[1]));
+				}//if
+				
+				//if the line contains edge we are adding an edge 
+				else if (textLine.contains("edge"))
+				{
+					edges = textLine.split("\\s+");
+					newGraph.addEdge(Integer.parseInt(edges[2]),
+					Integer.parseInt(edges[4]), 
+					Integer.parseInt(edges[5]));
+				}//if
+			}//else if
+			
+			//if line is empty we are outputting SSSP 
+			else if (textLine.equals("") )
+			{
+				System.out.println("Graph # "+ graph + ": ");
+				newGraph.detailsG();
+				SSSP nextSssp = new SSSP(newGraph);
+				System.out.println();
+			}//else if
+		   }//while
+		}//try
+		
+	catch(FileNotFoundException ex)
+		{
+		System.out.println("Failed to find file: "+ fileName);
+		}//catch
+	catch(InputMismatchException ex)
+		{
+		System.out.println("Type mismatch");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NumberFormatException ex)
+		{
+		System.out.println("Failed to convert String into an integer. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NullPointerException ex)
+		{
+		System.out.println("Null pointer exception. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(Exception ex)
+		{
+		System.out.println("Oops, something went wrong. ");
+		ex.printStackTrace();
+		}//catch
+	}//main
+}//main
+\end{lstlisting}
+\large
+In main we will read through the file constructing the graph line by line as opposed to storing the instructions. While the file has next line we will read it, if the line contains new graph we will create a new graph. If the line is not empty and not a comment we will determine if we are creating a vertex or an edge. If we are creating a vertex we will remove the letters from the line, parse the integer and create a new vertex for the graph. If the line contains edge, we will split on spaces, parse each of the integers for vertices' ids and the weight of the edge, and finally add the edge. If the line is empty we know we are done describing the graph and we can print out a label for the graph, print out the details of the graph's edges, and call SSSP to find the Single Source Shortest Path from vertex one to every other vertex. This completes the section on directed weighted graphs. 
+
+
+\huge
+Moving on to the Spice Heist...
+
+\small
+\section{Spice Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+
+public class Spice {
+
+	private String name;
+	private double perUnitValue;
+	private int quant;
+	private Spice next;
+	
+	public Spice() 
+	{
+		name = null;
+		perUnitValue = 0;
+		quant = 0;
+		next = null;
+	}//Spice
+	
+	public Spice(String newName, double newPerUnitValue, int newQuant)
+	{
+		name = newName;
+		perUnitValue = newPerUnitValue;
+		quant = newQuant;
+		next = null;
+	}//Spice
+	
+	public void setNext(Spice newNext)
+	{
+		next = newNext;
+	}//setNext
+	
+	public double getPerUnitValue()
+	{
+		return perUnitValue/quant;
+	}//getUnitValue
+	
+	public int getQuant()
+	{
+		return quant;
+	}//getQuant
+	
+	public String getName()
+	{
+		return name;
+	}//getName
+	
+	public Spice getNext()
+	{
+		return next;
+	}//getNext
+}//Spice
+
+\end{lstlisting}
+\large
+The spice class is made up of the string name of the spice, the per unit value, the quantity, and the next spice in the list. In this class, we just need to initialize all of these and create setters and getters. **One thing to note is when creating the getter for perUnitValue() (line 30) we need to make sure we are dividing the unit value by the quantity because the text file will give us the value of the spice for the entire quantity, not just one unit. 
+
+\small
+\section{List of Spices Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+
+public class ListOfSpices {
+
+	private Spice myHead;
+	private Spice ordered;
+	
+	public ListOfSpices()
+	{
+		myHead = null;
+		ordered = null;
+	}//List of Spices
+	
+	public void add(String name, double value, int quant)
+	{
+		Spice newSpice = new Spice(name, value, quant);
+		Spice newNext = myHead;
+		myHead = newSpice;
+		myHead.setNext(newNext);
+	}
+	
+	public Spice getHead()
+	{
+		if(isEmpty() == false)
+		{
+			return myHead;
+		}
+		else
+			return null;
+	}//getHead
+	
+	public boolean isEmpty()
+	{
+		if (myHead ==null)
+			return true;
+		else
+			return false;
+	}//isEmpty
+	
+	public void spiceSort()
+	{
+		ordered = null;
+		Spice curr = myHead;
+		while(curr != null)
+		{
+			Spice next = curr.getNext();
+			insert(curr);
+			curr = next;
+		}//while
+	}//spiceSort
+	
+	public void insert(Spice newSpice)
+	{
+		if(ordered == null || ordered.getPerUnitValue()<=
+		newSpice.getPerUnitValue())
+		{
+			newSpice.setNext(ordered);
+			ordered = newSpice;
+		}//if
+		else
+		{
+			Spice curr = ordered;
+			while(curr.getNext() != null &&
+			curr.getNext().getPerUnitValue()>newSpice.getPerUnitValue())
+			{
+				curr = curr.getNext();
+			}//while
+			newSpice.setNext(curr.getNext());
+			curr.setNext(newSpice);
+		}//else
+	}//insert
+	
+}//List of Spices
+\end{lstlisting}
+\large
+The List of Spices class will allow us to go through the spices in the order of value. We first add all of the spices linking them with myNext. We create a getter for myHead (line 21) to get the first spice in the list, an isEmpty() function (line 31) that tells us if the list is empty, and a spiceSort() method (line 39). Spice sort is called once all of the spices have been added. SpiceSort and insert allow us to order the spices by perUnitValue so the most valuable spices are first and we can claim those first. Ordering the spices makes our greedy algorithm much more simple. 
+
+\small
+\section{Knapsack Class}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+
+public class Knapsack {
+
+	private int capacity;
+	private double currentQuant;
+	private double currentVal;
+	
+	public Knapsack()
+	{
+		capacity = 0;
+		currentQuant = 0;
+		currentVal = 0;
+	}//knapsack
+	
+	public Knapsack(int newCapacity)
+	{
+		capacity = newCapacity;
+		currentQuant = 0;
+		currentVal = 0;
+	}//Knapsack
+	
+	public void setCurrentQuant(double newQuant)
+	{
+		currentQuant = currentQuant + newQuant;
+	}//setCurrentQuant
+	
+	public void setCurrentVal(double newVal)
+	{
+		currentVal = currentVal + newVal;
+	}//setCurrentVal
+	
+	public int getCapacity()
+	{
+		return capacity;
+	}//getCapacity
+	
+	public double getCurrentQuant()
+	{
+		return currentQuant;
+	}//getCurrentQuant
+	
+	public double getCurrentVal()
+	{
+		return currentVal;
+	}//getCurrentVal
+}//Knapsack
+\end{lstlisting}
+\large
+The Knapsack class is used to represent the knapsacks we have to hold the spices. Knapsacks are made up of a capacity, a current quantity/current capacity, and a current value (in quatloos of course). This class is also pretty simple: initialize, setters and getters.  
+
+\small
+\section{...In Main Method}
+\begin{lstlisting}[frame =single,
+backgroundcolor = \color{grey!12}]
+public class main {
+
+	public static void main(String[] args) 
+	{
+	try 
+	{
+		System.out.println("Spice Heist: ");
+		String file2Name = "spice.txt";
+		Scanner readFile = new Scanner (new File (file2Name));
+		String text = "";
+		String spice [];
+		String knapsack [];
+		int sackNum = 0;
+		double difference;
+		double amount;
+		double quatloos = 0;
+		int counter = 0;
+		String contains = "";
+		Knapsack[] sacks = new Knapsack[5];
+		ListOfSpices newSpice = new ListOfSpices();
+		while(readFile.hasNextLine())
+		{
+			text = readFile.nextLine();
+			if( text.equals("") ||text.charAt(0)!= '-' )
+			{
+				//if line contains spice we are adding a new spice 
+				if(text.contains("spice"))
+				{
+					text = text.replace(';', ' ');
+					spice = text.split("\\s+");
+					newSpice.add(spice[3], 
+					Double.parseDouble(spice[6]),
+					Integer.parseInt(spice[9]));
+					
+				}//if
+				else if(text.contains("knapsack"))
+				{
+					//if line contains knapsack  we want to know 
+					//the highest possible 
+					//value for that knapsack
+					text = text.replace(';', ' ');
+					knapsack = text.split("\\s+");
+					sacks[sackNum]= new 
+					Knapsack(Integer.parseInt(knapsack[3]));
+					sackNum++;
+				}//elseIf
+			}//if
+			
+		}//while
+		
+		//put spices in order by value
+		newSpice.spiceSort();
+		Spice curr = newSpice.getHead();
+		
+		while(counter < sacks.length && sacks[counter] != null)
+		{
+			//if spice is not null and sack is not full
+			if(curr != null && sacks[counter].getCurrentQuant() !=
+			sacks[counter].getCapacity())
+			{
+				//if we can add the entirety of the spice 
+				if (sacks[counter].getCurrentQuant() + 
+				curr.getQuant() < sacks[counter].getCapacity())
+				{
+					sacks[counter].setCurrentQuant(
+					curr.getQuant());
+					contains = contains + (", " + 
+					(curr.getQuant()* 1.0) + " scoop(s) of " +
+					curr.getName());
+					quatloos = quatloos + (curr.getQuant() *
+					curr.getPerUnitValue());
+					curr = curr.getNext();
+				}//if
+				//if we can only add some of the spice 
+				else
+				{
+					difference = (sacks[counter].getCapacity()
+					- sacks[counter].getCurrentQuant());
+					amount = difference / curr.getQuant();
+					sacks[counter].setCurrentQuant(amount *
+					curr.getQuant());
+					sacks[counter].setCurrentVal(amount *
+					curr.getPerUnitValue());
+					contains = contains +  (", " + amount * 
+					curr.getQuant() + " scoop(s) of " 
+					+ curr.getName() );
+					quatloos = quatloos + ((amount * 
+					curr.getQuant())* 
+					curr.getPerUnitValue());
+					curr = curr.getNext();
+				}//else
+			}//if
+			
+			else
+			{
+				System.out.println("Knapsack of capacity " 
+				+ sacks[counter].getCapacity()
+				+ " is worth "
+				+ quatloos + " quatloos and contains" 
+				+ contains + ". ");
+				counter ++;
+				curr = newSpice.getHead();
+				quatloos = 0;
+				contains = "";
+			}
+		}//while
+		
+	}//try
+	catch(FileNotFoundException ex)
+	{
+	System.out.println("Failed to find file: "+ fileName);
+	}//catch
+	catch(InputMismatchException ex)
+		{
+		System.out.println("Type mismatch. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NumberFormatException ex)
+		{
+		System.out.println("Failed to convert String into an integer. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(NullPointerException ex)
+		{
+		System.out.println("Null pointer exception. ");
+		System.out.println(ex.getMessage());
+		}//catch
+	catch(Exception ex)
+		{
+		System.out.println("Oops, something went wrong. ");
+		ex.printStackTrace();
+		}//catch
+	
+	}//main
+	
+}//main
+\end{lstlisting}
+\large
+In main again we start by reading the file. Ignoring the comments, if the line contains spice we first replace all semicolons with spaces to eliminate them from the parse. Then we split on space and create a new spice with the spice's name, price and quantity. If the line contains knapsack we are creating a new knapsack and adding it to an array of knapsacks to traverse later. We also have a counter for sackNum to indicate where in the array to insert the sack, so this must be incremented too. Next we order the spices with spiceSort and set current to be the head of the spice list. While we still have knapsacks to fill we want to first check that the spice is not null and that the sack is not full. Then we want to check if we can add the entirety of the next spice or only a portion. If the sack's current quantity plus the spice's current quantity is less than the sack's capacity we can add all of the current spice. We then adjust the current quantity and value of the sack. We also have a string contains here that keeps track of what is in the sack, so we update that here too. If all of the current spice will not fit in the sack we move on to the else statement and add the portion of the spice that will fit. We find out how much room is left in the sack and divide that by the amount of spice that we have. We then make the same updates as before. Finally, once the sack is full, we print out the capacity of the sack, how many quatloos it is worth, and what how much of which spices are in it. We then set curr to be the head of the spice list again (the most valuable spice), quatloos back to zero and contains to be the empty string. We also increment counter to show up moving onto the next knapsack. 
+
+\large
+\section{Conclusion}
+The asymptotic running time of the Bellman-Ford Single Source Shortest Path is O(VE), v indicating number of vertices and e indicating number of edges. This is because for each of the vertices (-1 being the source) we have to check all edges to determine which yields the lowest cost. As for the fractional knapsack, we have a running time of O(n log(n)). This is because we must first sort the spices by price then we traverse through the list until the knapsack is full.   
+\end{document}
+
+
+
