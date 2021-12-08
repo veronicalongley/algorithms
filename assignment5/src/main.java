@@ -13,8 +13,7 @@ public class main {
 
 	public static void main(String[] args) 
 	{
-		//Read instructions .txt file
-		//make graphs line by line as opposed to storing file
+
 		String fileName = "graphs2.txt";
 		String file2Name = "spice.txt";
 		try 
@@ -26,6 +25,8 @@ public class main {
         String[] edges;
         int graph = 0; 
         System.out.println("Directed Weighted Graphs: ");
+		//Read instructions .txt file
+		//make graphs line by line as opposed to storing file
 		while (readFile.hasNextLine()) 
 		   {
 			textLine = readFile.nextLine();
@@ -35,20 +36,25 @@ public class main {
 				graph++;
 			}//if
 				
+			//if the line is not empty and is not a comment 
 			else if (!(textLine.equals("")) && (textLine.charAt(0) != '-'))
 			{
+				//if it contains 'vertex' we are adding a vertex
 				if(textLine.contains("vertex"))
 				{
 					vertices = textLine.split("add vertex ");
 					newGraph.addVertex(Integer.parseInt(vertices[1]));
 				}//if
+				
+				//if the line contains edge we are adding an edge 
 				else if (textLine.contains("edge"))
 				{
 					edges = textLine.split("\\s+");
-					//System.out.println(edges[5]);
 					newGraph.addEdge(Integer.parseInt(edges[2]), Integer.parseInt(edges[4]), Integer.parseInt(edges[5]));
 				}//if
 			}//else if
+			
+			//if line is empty we are outputting SSSP 
 			else if (textLine.equals("") )
 			{
 				System.out.println("Graph # "+ graph + ": ");
@@ -104,6 +110,7 @@ public class main {
 			text = readFile.nextLine();
 			if( text.equals("") ||text.charAt(0)!= '-' )
 			{
+				//if line contains spice we are adding a new spice 
 				if(text.contains("spice"))
 				{
 					text = text.replace(';', ' ');
@@ -114,6 +121,8 @@ public class main {
 				}//if
 				else if(text.contains("knapsack"))
 				{
+					//if line contains knapsack  we want to know the highest possible 
+					//value for that knapsack
 					text = text.replace(';', ' ');
 					knapsack = text.split("\\s+");
 					sacks[sackNum]= new Knapsack(Integer.parseInt(knapsack[3]));
@@ -124,14 +133,16 @@ public class main {
 			
 		}//while
 		
+		//put spices in order by value
 		newSpice.spiceSort();
 		Spice curr = newSpice.getHead();
 		
 		while(counter < sacks.length && sacks[counter] != null)
 		{
-			//if sack is not null and not full
+			//if spice is not null and sack is not full
 			if(curr != null && sacks[counter].getCurrentQuant() != sacks[counter].getCapacity())
 			{
+				//if we can add the entirety of the spice 
 				if (sacks[counter].getCurrentQuant() + curr.getQuant() < sacks[counter].getCapacity())
 				{
 					sacks[counter].setCurrentQuant(curr.getQuant());
@@ -139,6 +150,7 @@ public class main {
 					quatloos = quatloos + (curr.getQuant() * curr.getPerUnitValue());
 					curr = curr.getNext();
 				}//if
+				//if we can only add some of the spice 
 				else
 				{
 					difference = (sacks[counter].getCapacity() - sacks[counter].getCurrentQuant());

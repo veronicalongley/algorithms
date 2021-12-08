@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Stack;
 public class SSSP 
 {
-
-
 	public SSSP(Graph graph)
 	{
 		algorithm(graph);
@@ -14,12 +12,17 @@ public class SSSP
 		int start = 0; 
 		ArrayList<Vertex> theVertices = graph.getVertices();
 		ArrayList<Edge> theEdges = graph.getEdges();
+		
+		//initialize 
 		for(int i = 0; i <  theVertices.size(); i++)
 		{
 			theVertices.get(i).setDist(10000);
 			theVertices.get(i).setPrev(null);
 		}//for
+		
 		theVertices.get(start).setDist(0);
+		
+		//relax 
 		for(int j = 1; j<theVertices.size(); j++)
 		{
 			for(int k = 0; k<theEdges.size(); k++)
@@ -28,6 +31,7 @@ public class SSSP
 			}//for
 		}//for
 		
+		//check for negative cycle
 		for(int i = 0; i < theEdges.size(); i++)
 		{
 			if(theEdges.get(i).getTo().getDist() > (theEdges.get(i).getFrom().getDist() + theEdges.get(i).getWeight()))

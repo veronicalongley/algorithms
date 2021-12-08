@@ -44,14 +44,6 @@ public class Graph {
 	{
 		return numOfVertices;
 	}//getnumOfVertices
-
-	//reset number of vertices and the vertices when we are moving to next graph
-	public void resetGraph(Graph graph)
-	{
-		graph.numOfVertices = 0;
-		graph.theVertices.clear();
-		graph.theEdges.clear();
-	}//resetGraph
 	
 	public void detailsG()
 	{

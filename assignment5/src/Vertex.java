@@ -2,8 +2,8 @@
 import java.util.ArrayList;
 
 public class Vertex {
-	//Vertexes are made up of an id, a boolean is processed to 
-	//aid with traversals and a list of neighbors 
+	//vertices are labelled with an id
+	//dist and prev aid with SSSP
 	private int id;
 	private int dist;
 	private Vertex prev;
