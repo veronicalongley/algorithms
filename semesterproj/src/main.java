@@ -43,12 +43,11 @@ public class main
 			samplePool[6] = population[k+6];
 			samplePool[7] = population[k+7];
 			runtest(samplePool);
-			//System.out.println( case1 + " - " + case2 + " - " + case3 + " - " + numofTests + " - " + samplePool[0] +samplePool[1] +samplePool[2] +samplePool[3] +samplePool[4] +samplePool[5] +samplePool[6] +samplePool[7] );
 		}//for
 		
-		System.out.println("Case (1): 125 * 0.8500 = "+ case1 + " instances requiring " + (case1 * 1) + " tests. ");
-		System.out.println("Case (2): 125 * 0.1496 = "+ case2 + " instances requiring " + (case2 * 7) + " tests. ");
-		System.out.println("Case (3): 125 * 0.0004 = "+ case3 + " instances requiring " + (case3 * 11) + " tests. ");
+		System.out.println("Case (1): " + popSize/8 + " * 0.8500 = "+ case1 + " instances requiring " + (case1 * 1) + " tests. ");
+		System.out.println("Case (2): " + popSize/8 + " * 0.1496 = "+ case2 + " instances requiring " + (case2 * 7) + " tests. ");
+		System.out.println("Case (3): " + popSize/8 + " * 0.0004 = "+ case3 + " instances requiring " + (case3 * 11) + " tests. ");
 		System.out.println("-------------------------------------------------------------------------------");
 		System.out.println(numofTests + " tests to screen a population of " + popSize + " people with an infection rate of 2%. ");
 
