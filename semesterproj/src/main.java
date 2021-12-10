@@ -16,7 +16,6 @@ public class main
 		double infectedAmt = popSize * 0.02;
 		int [] population = new int [popSize];
 		int groupSize = 8;
-		int sum = 0; 
 		
 		for(int j = 0; j < popSize; j++)
 		{
@@ -31,14 +30,6 @@ public class main
 		
 		shuffle(population, popSize);
 		
-		for(int j = 0; j < popSize; j++)
-		{
-			//System.out.println(population[j]);
-			sum += population[j];
-		}//for
-		
-		//System.out.println(sum);
-		
 		int [] samplePool = new int [groupSize];
 		
 		for(int k = 0; k < popSize; k = k+ 8 )
@@ -52,13 +43,15 @@ public class main
 			samplePool[6] = population[k+6];
 			samplePool[7] = population[k+7];
 			runtest(samplePool);
+			//System.out.println( case1 + " - " + case2 + " - " + case3 + " - " + numofTests + " - " + samplePool[0] +samplePool[1] +samplePool[2] +samplePool[3] +samplePool[4] +samplePool[5] +samplePool[6] +samplePool[7] );
+		}//for
+		
+		System.out.println("Case (1): 125 * 0.8500 = "+ case1 + " instances requiring " + (case1 * 1) + " tests. ");
+		System.out.println("Case (2): 125 * 0.1496 = "+ case2 + " instances requiring " + (case2 * 7) + " tests. ");
+		System.out.println("Case (3): 125 * 0.0004 = "+ case3 + " instances requiring " + (case3 * 11) + " tests. ");
+		System.out.println("-------------------------------------------------------------------------------");
+		System.out.println(numofTests + " tests to screen a population of " + popSize + " people with an infection rate of 2%. ");
 
-		}
-		System.out.println("Case 1: "+ case1);
-		System.out.println("Case 2: "+ case2);
-		System.out.println("Case 3: "+ case3);
-		System.out.println("Total tests "+ numofTests);
-	
 	}//main
 	
 	static void shuffle (int values [], final int TOTNUM)
@@ -90,43 +83,50 @@ public class main
 		
 		else
 		{
-			int[] firstHalf = Arrays.copyOfRange(pool, 0, 3);
-			int[] secondHalf = Arrays.copyOfRange(pool, 4, 7);
+			int[] firstHalf = new int [4];
+			firstHalf[0] = pool[0];
+			firstHalf[1] = pool[1];
+			firstHalf[2] = pool[2];
+			firstHalf[3] = pool[3];
+			int[] secondHalf = new int [4];
+			secondHalf[0] = pool[4];
+			secondHalf[1] = pool[5];
+			secondHalf[2] = pool[6];
+			secondHalf[3] = pool[7];
 			posneg2 = test(firstHalf);
 			posneg3 = test(secondHalf);
 			
-			if(posneg2 == true )
+			if(posneg2 == true && posneg3 == false)
 			{
-				int[] first = Arrays.copyOfRange(pool,0,0);
-				int[] second = Arrays.copyOfRange(pool,1,1);
-				int[] third = Arrays.copyOfRange(pool,2,2);
-				int[] fourth = Arrays.copyOfRange(pool,3,3);
-				test(first);
-				test(second);
-				test(third);
-				test(fourth);
+				singleTest(pool[0]);
+				singleTest(pool[1]);
+				singleTest(pool[2]);
+				singleTest(pool[3]);
 				case2++;
-			}
-			if(posneg3 == true)
+			}//if
+			if(posneg3 == true && posneg2 == false)
 			{
-				int[] first = Arrays.copyOfRange(pool,4,4);
-				int[] second = Arrays.copyOfRange(pool,5,5);
-				int[] third = Arrays.copyOfRange(pool,6,6);
-				int[] fourth = Arrays.copyOfRange(pool,7,7);
-				test(first);
-				test(second);
-				test(third);
-				test(fourth);
+				singleTest(pool[4]);
+				singleTest(pool[5]);
+				singleTest(pool[6]);
+				singleTest(pool[7]);
 				case2++;
-			}
+			}//if
 			if(posneg2 ==true && posneg3 ==true)
 			{
 				case3++;
-				case2 = case2 - 2;
-			}
-		}
+				singleTest(pool[0]);
+				singleTest(pool[1]);
+				singleTest(pool[2]);
+				singleTest(pool[3]);
+				singleTest(pool[4]);
+				singleTest(pool[5]);
+				singleTest(pool[6]);
+				singleTest(pool[7]);
+			}//if
+		}//else
 		
-	}
+	}//runtest
 	
 	static boolean test(int pool[])
 	{
@@ -135,9 +135,19 @@ public class main
 		if(IntStream.of(pool).sum() != 0)
 		{
 			result = true;
-		}
+		}//if
 		return result;
-	}
+	}//test
 	
+	static boolean singleTest(int value)
+	{
+		numofTests++;
+		boolean result = false;
+		if(value == 1)
+		{
+			result = true;
+		}//if
+		return result;
+	}//singleTest
 	
 }//main
